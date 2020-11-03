@@ -26,11 +26,6 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>driver/segmentlcd.c</name>
-			<type>1</type>
-			<locationURI>STUDIO_SDK_LOC/hardware/kit/common/drivers/segmentlcd.c</locationURI>
-		</link>
-		<link>
 			<name>emlib/em_cmu.c</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/platform/emlib/src/em_cmu.c</locationURI>
