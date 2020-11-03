@@ -30,7 +30,7 @@ int main(void)
   while (1) {
 	  if (!(BSP_ButtonsGet() & 0b00000000000000000000000000000011)){
 
-		  blink_decimalpoints();
+		  Decimalpoints_BlinkFiveTimes();
 	  }
 
 

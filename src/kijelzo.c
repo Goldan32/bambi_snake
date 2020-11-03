@@ -10,12 +10,9 @@
 #include "my_delay.h"
 
 
-
-
-
 /*blinks all of the decimal points at once 5 times
  * used at the end of a round*/
-void blink_decimalpoints(void)
+void Decimalpoints_BlinkFiveTimes(void)
 {
 	int i;
 	for (i=0;i<5;i++)
