@@ -33,7 +33,7 @@ int main(void)
 		  blink_decimalpoints();
 	  }
 
-/* this */
+
 
   }
 }
