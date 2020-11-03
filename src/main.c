@@ -33,7 +33,7 @@ int main(void)
 		  blink_decimalpoints();
 	  }
 
-/* this is for github */
+/* this is for github, bemutatás */
 
   }
 }
