@@ -15,8 +15,10 @@
 #include "segmentlcd.h"
 #include "segmentlcd_individual.h"
 
+#define NUM_OF_SEGMENTS 37
+
 /* enumarated type to store the status of a single segment */
-typedef enum {SNAKE, FOOD, NOTHING} segment_status;
+typedef enum {NOTHING, SNAKE, FOOD} segment_status;
 
 /* a structure to logically describe a segment as a "pixel" in the game */
 typedef struct
@@ -31,12 +33,24 @@ typedef struct
 	uint8_t right_one;
 	uint8_t forward_one; /* left right and forward relative to the cell, when the direction is "one" */
 
-	segment_status role; /* a segment can be FOOD, SNAKE, or NOTHING */
-}SingleSegment;
+}SingleSegment_Type;
 
+
+
+/* describes an LCD segment as part of the game map */
+SingleSegment_Type SegmentNeighbors[NUM_OF_SEGMENTS];
+
+/* stores the role of each segment: snake, food, or nothing */
+segment_status SegmentRoles[NUM_OF_SEGMENTS];
+
+
+
+
+/* the decimal points start to blink and the screen is cleared, signals the end of the game */
 void Decimalpoints_BlinkFiveTimes(void);
 
-
+/* Light up all snake and food segments, shut off the nothing segments */
+void Screen_DrawAllSegments(segment_status* segments);
 
 
 
