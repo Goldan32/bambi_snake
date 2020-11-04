@@ -49,7 +49,8 @@ segment_status SegmentRoles[NUM_OF_SEGMENTS];
 /* the decimal points start to blink and the screen is cleared, signals the end of the game */
 void Decimalpoints_BlinkFiveTimes(void);
 
-/* Light up all snake and food segments, shut off the nothing segments */
+/* A function that takes an array that contains NUM_OF_SEGMENTS segments status enums
+ * then it calls the uppersegments function to set/reset all segments according to the parameter*/
 void Screen_DrawAllSegments(segment_status* segments);
 
 

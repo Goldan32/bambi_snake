@@ -10,6 +10,11 @@
 #include "my_delay.h"
 
 
+#define MIDDLE_HORIZONTAL_BASE 0
+#define LOWER_HORIZONTAL_BASE 7
+#define UPPER_HORIZONTAL_BASE 14
+#define LOWER_VERTICAL_BASE 21
+#define UPPER_VERTICAL_BASE 29
 
 
 
@@ -61,16 +66,66 @@ SingleSegment_Type SegmentNeighbors[NUM_OF_SEGMENTS]=
 
 segment_status SegmentRoles[NUM_OF_SEGMENTS] = {SNAKE, NOTHING};
 
+
 void Screen_DrawAllSegments(segment_status* segments)
 {
-	/* TODO */
+	uint8_t i;
+	SegmentLCD_LowerCharSegments_TypeDef lowerCharSegments[SEGMENT_LCD_NUM_OF_LOWER_CHARS]={0};
+
+	for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
+	{
+		if (segments[MIDDLE_HORIZONTAL_BASE + i] == NOTHING)
+		{
+			lowerCharSegments[i].g = 0;
+			lowerCharSegments[i].m = 0;
+		}
+		else
+		{
+			lowerCharSegments[i].g = 1;
+			lowerCharSegments[i].m = 1;
+		}
+
+	}
+
+	for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
+	{
+		lowerCharSegments[i].d = (segments[LOWER_HORIZONTAL_BASE + i] == NOTHING) ? 0 : 1;
+	}
+
+	for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
+	{
+		lowerCharSegments[i].a = (segments[UPPER_HORIZONTAL_BASE + i] == NOTHING) ? 0 : 1;
+	}
+
+	for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
+	{
+		lowerCharSegments[i].e = (segments[LOWER_VERTICAL_BASE + i] == NOTHING) ? 0 : 1;
+	}
+
+	for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
+	{
+		lowerCharSegments[i].f = (segments[UPPER_VERTICAL_BASE + i] == NOTHING) ? 0 : 1;
+	}
+
+	lowerCharSegments[7].c = (segments[28] == NOTHING) ? 0 : 1;
+	lowerCharSegments[7].b = (segments[36] == NOTHING) ? 0 : 1;
+
+	SegmentLCD_LowerSegments(lowerCharSegments);
+
 }
 
 
 void Decimalpoints_BlinkFiveTimes(void)
 {
-	/* TODO: clear screen */
-	int i;
+	uint8_t i,p;
+
+	SegmentLCD_LowerCharSegments_TypeDef lowerCharSegments[SEGMENT_LCD_NUM_OF_LOWER_CHARS];
+	for (p = 0; p < SEGMENT_LCD_NUM_OF_LOWER_CHARS; p++)
+	{
+	  lowerCharSegments[p].raw = 0;
+	  SegmentLCD_LowerSegments(lowerCharSegments);
+    }
+
 	for (i=0;i<5;i++)
 	{
 		SegmentLCD_Symbol(LCD_SYMBOL_DP2, 1);
