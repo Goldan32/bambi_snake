@@ -10,6 +10,7 @@
 #include "my_delay.h"
 #include "kijelzo.h"
 #include "mytimer.h"
+#include "game_logic.h"
 
 #include "bsp_stk_buttons.h"
 #include "em_timer.h"
