@@ -6,9 +6,8 @@
  */
 
 #include "mytimer.h"
-#include "em_timer.h"
-#include "kijelzo.h"
 
+TIMER_Init_TypeDef TIMER1_init = TIMER_INIT_DEFAULT;
 
 
 void TIMER1_IRQHandler(void){

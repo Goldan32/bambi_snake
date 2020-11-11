@@ -56,7 +56,7 @@ int main(void)
 	  }
 	  if(timerflag){
 		timerflag=false;
-		Screen_DrawAllSegments(SegmentRoles[NUM_OF_SEGMENTS]);
+		Screen_DrawAllSegments(SegmentRoles);
 	  }
 
 
