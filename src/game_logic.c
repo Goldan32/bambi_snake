@@ -8,6 +8,7 @@
 
 #include "game_logic.h"
 #include "kijelzo.h"
+#include "stdlib.h"
 
 /*
  *Bad solution here
