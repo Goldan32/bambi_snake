@@ -10,6 +10,17 @@
 #include "kijelzo.h"
 #include "stdlib.h"
 
+/* ----------- macros to help initialize an array -------------------- */
+#define NUM_OF_SEGMENTS_2X     NUM_OF_SEGMENTS,  NUM_OF_SEGMENTS
+#define NUM_OF_SEGMENTS_4X     NUM_OF_SEGMENTS_2X,  NUM_OF_SEGMENTS_2X
+#define NUM_OF_SEGMENTS_8X     NUM_OF_SEGMENTS_4X,  NUM_OF_SEGMENTS_4X
+#define NUM_OF_SEGMENTS_16X    NUM_OF_SEGMENTS_8X,  NUM_OF_SEGMENTS_8X
+#define NUM_OF_SEGMENTS_32X    NUM_OF_SEGMENTS_16X, NUM_OF_SEGMENTS_16X
+/* ------------------------------------------------------------------- */
+
+
+
+
 /*
  *Bad solution here
  */
@@ -41,9 +52,6 @@ void FoodSegment_Place(){
 
 void Snake_TurnDirection(Direction_StateMachine_Type* this, TurnDirection turn)
 {
-	if (this->input_recieved) return; /* If we already calculated the next state, the function returns without modifications to state */
-	this->input_recieved = true; /* if we get here, this is the first call instance in this cycle */
-
 
 	DirectionState next_state;
 
@@ -76,7 +84,51 @@ void Snake_TurnDirection(Direction_StateMachine_Type* this, TurnDirection turn)
 }
 
 
+Direction_StateMachine_Type current_direction = { false, RIGHT_STATE, (*Snake_TurnDirection)};
 
+/* every element is set to an undefined value at first */
+uint8_t Snake_LinkedList[NUM_OF_SEGMENTS] = {NUM_OF_SEGMENTS_32X,NUM_OF_SEGMENTS_4X, NUM_OF_SEGMENTS};
+
+
+Snake_HeadAndTail SnakeEndings = {0,0};
+
+
+
+void Snake_TurnLinkedList(TurnDirection turn)
+{
+	uint8_t i;
+
+	if (current_direction.down_or_left)
+	{
+		if(turn == RIGHT_TURN)
+		{
+			Snake_LinkedList[SegmentNeighbors[SnakeEndings.head].right_one] = SnakeEndings.head;
+			SnakeEndings.head = SegmentNeighbors[SnakeEndings.head].right_one;
+		}
+		if(turn == LEFT_TURN)
+		{
+			Snake_LinkedList[SegmentNeighbors[SnakeEndings.head].left_one] = SnakeEndings.head;
+			SnakeEndings.head = SegmentNeighbors[SnakeEndings.head].left_one;
+		}
+	}
+	if (!current_direction.down_or_left)
+	{
+		if(turn == RIGHT_TURN)
+		{
+			Snake_LinkedList[SegmentNeighbors[SnakeEndings.head].right_zero] = SnakeEndings.head;
+			SnakeEndings.head = SegmentNeighbors[SnakeEndings.head].right_zero;
+		}
+		if(turn == LEFT_TURN)
+		{
+			Snake_LinkedList[SegmentNeighbors[SnakeEndings.head].left_zero] = SnakeEndings.head;
+			SnakeEndings.head = SegmentNeighbors[SnakeEndings.head].left_zero;
+		}
+	}
+
+	for (i=SnakeEndings.head;i!=Snake_LinkedList[SnakeEndings.tail];i=Snake_LinkedList[i]);
+	Snake_LinkedList[i] = NUM_OF_SEGMENTS;
+	SnakeEndings.tail = i;
+}
 
 
 

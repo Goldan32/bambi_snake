@@ -28,11 +28,9 @@ typedef enum {RIGHT_TURN, LEFT_TURN } TurnDirection;
 /* state machine, that controls the movement of the snake */
 typedef struct Direction_StateMachine_Placeholder
 {
-	uint8_t head; /* The current segments number, that is the head of the snake */
-	_Bool input_recieved; /* true, if a button was pushed in this cycle, used to prevent multiple inputs in one cycle */
-
 
 	_Bool down_or_left; /* the current direction, true if the snake is going down or left atm */
+
 	DirectionState current_state; /* inner state of the state machine */
 
 	/* function that calculates the direction for the next cycle */
@@ -45,13 +43,23 @@ typedef struct Direction_StateMachine_Placeholder
 Direction_StateMachine_Type current_direction;
 
 
+/* contains the number of the segment, that preceds the current element of this array in the snake
+ * elements can be 0...NUM_OF_SEGMENTS-1, if the value is NUM_OF_SEGMENTS, or greater than the value is undefined */
+uint8_t Snake_BackwardLinkedList[NUM_OF_SEGMENTS];
 
+/* structure to store the head and tail of the linked list */
+typedef struct
+{
+	uint8_t head;
+	uint8_t tail;
+}Snake_HeadAndTail;
 
+Snake_HeadAndTail SnakeEndings;
 
 
 /* MUST BE CALLED AFTER CALCULATING THE NEW DIRECTION WITH THE STATE MACHINE
  * calculates the next state of the display */
-
+void Snake_TurnLinkedList(TurnDirection turn);
 
 
 
