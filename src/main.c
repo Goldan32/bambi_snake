@@ -34,32 +34,62 @@ int main(void)
   BSP_ButtonsInit();
 
   /* user setup before infinite loop */
-  for (iter=7;iter<14;iter++)
-  {
-	  SegmentRoles[iter] = SNAKE;
-  }
-
-  SegmentRoles[21] = SNAKE;
-  SegmentRoles[29] = SNAKE;
-  SegmentRoles[0] = NOTHING;
-  SegmentRoles[34] = FOOD;
-  SegmentRoles[1] = SNAKE;
+  Snake_StartSetup();
 
   /* Infinite loop */
-  while (1) {
-	  if (!(BSP_ButtonsGet() & 0b00000000000000000000000000000001)){
+  while (1)
+  {
+	  if (!(BSP_ButtonsGet() & 0b00000000000000000000000000000001))
+	  {
 
-		  Decimalpoints_BlinkFiveTimes();
-		  myDelay_ms(2000);
 
-		  Screen_DrawAllSegments(SegmentRoles);
+
+		 for (iter = 0; iter < 10 ;iter++)
+		 {
+			 Snake_CalculateNextState(FORWARD_TURN);
+			 myDelay_ms(500);
+
+			 Snake_CalculateNextState(FORWARD_TURN);
+			 myDelay_ms(500);
+
+			 Snake_CalculateNextState(FORWARD_TURN);
+			 myDelay_ms(500);
+
+			 Snake_CalculateNextState(FORWARD_TURN);
+			 myDelay_ms(500);
+
+			 Snake_CalculateNextState(RIGHT_TURN);
+			 myDelay_ms(500);
+
+			 Snake_CalculateNextState(RIGHT_TURN);
+			 myDelay_ms(500);
+
+			 Snake_CalculateNextState(FORWARD_TURN);
+			 myDelay_ms(500);
+
+			 Snake_CalculateNextState(FORWARD_TURN);
+			 myDelay_ms(500);
+
+			 Snake_CalculateNextState(FORWARD_TURN);
+			 myDelay_ms(500);
+		 }
+
+
+
+
+		/* Snake_CalculateNextState(LEFT_TURN);
+		 myDelay_ms(500);
+
+		 Snake_CalculateNextState(LEFT_TURN);
+		 myDelay_ms(500); */
+
 	  }
-	  if(timerflag){
+	  /*if(timerflag){
 		timerflag=false;
-		Screen_DrawAllSegments(SegmentRoles);
-	  }
-
-
-
+		Screen_DrawAllSegments(SegmentRoles); */
   }
+
+
+
+
 }

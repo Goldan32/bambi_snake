@@ -22,7 +22,7 @@ void FoodSegment_Place();
 /* Defining the state machine that controls the direction bit*/
 typedef enum {RIGHT_STATE, UP_STATE, DOWN_STATE, LEFT_STATE} DirectionState;
 
-typedef enum {RIGHT_TURN, LEFT_TURN } TurnDirection;
+typedef enum {RIGHT_TURN, LEFT_TURN, FORWARD_TURN} TurnDirection;
 
 
 /* state machine, that controls the movement of the snake */
@@ -52,6 +52,7 @@ typedef struct
 {
 	uint8_t head;
 	uint8_t tail;
+	uint8_t length;
 }Snake_HeadAndTail;
 
 Snake_HeadAndTail SnakeEndings;
@@ -61,9 +62,11 @@ Snake_HeadAndTail SnakeEndings;
  * calculates the next state of the display */
 void Snake_TurnLinkedList(TurnDirection turn);
 
+void LinkedList_ToDraw(segment_status* segments);
 
+void Snake_CalculateNextState(TurnDirection turn);
 
-
+void Snake_StartSetup(void);
 
 
 
