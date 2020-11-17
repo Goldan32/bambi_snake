@@ -16,7 +16,9 @@
 #include "em_timer.h"
 
 
+volatile bool button_IT_flag = false;
 
+void Button_IRQ(void){
 
 int main(void)
 {
@@ -32,6 +34,7 @@ int main(void)
   myDelay_Init();
   myTimer_Init();
   BSP_ButtonsInit();
+  Game_Init();
 
   /* user setup before infinite loop */
   for (iter=7;iter<14;iter++)
@@ -56,7 +59,7 @@ int main(void)
 	  }
 	  if(timerflag){
 		timerflag=false;
-		Screen_DrawAllSegments(SegmentRoles[NUM_OF_SEGMENTS]);
+		Screen_DrawAllSegments(&SegmentRoles[NUM_OF_SEGMENTS]);
 	  }
 
 

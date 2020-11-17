@@ -8,6 +8,7 @@
 
 #include "kijelzo.h"
 #include "my_delay.h"
+#include "game_logic.h"
 
 
 #define MIDDLE_HORIZONTAL_BASE 0
@@ -69,53 +70,61 @@ segment_status SegmentRoles[NUM_OF_SEGMENTS] = {SNAKE, NOTHING};
 
 void Screen_DrawAllSegments(segment_status* segments)
 {
-	uint8_t i;
-	SegmentLCD_LowerCharSegments_TypeDef lowerCharSegments[SEGMENT_LCD_NUM_OF_LOWER_CHARS]={0};
+	SegmentLCD_Number(GameController.score);
 
-	for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
+	if(GameController.status == RUNNING)
 	{
-		if (segments[MIDDLE_HORIZONTAL_BASE + i] == NOTHING)
+		uint8_t i;
+		SegmentLCD_LowerCharSegments_TypeDef lowerCharSegments[SEGMENT_LCD_NUM_OF_LOWER_CHARS]={0};
+
+		for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
 		{
-			lowerCharSegments[i].g = 0;
-			lowerCharSegments[i].m = 0;
+			if (segments[MIDDLE_HORIZONTAL_BASE + i] == NOTHING)
+			{
+				lowerCharSegments[i].g = 0;
+				lowerCharSegments[i].m = 0;
+			}
+			else
+			{
+				lowerCharSegments[i].g = 1;
+				lowerCharSegments[i].m = 1;
+			}
+
 		}
-		else
+
+		for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
 		{
-			lowerCharSegments[i].g = 1;
-			lowerCharSegments[i].m = 1;
+			lowerCharSegments[i].d = (segments[LOWER_HORIZONTAL_BASE + i] == NOTHING) ? 0 : 1;
 		}
 
-	}
+		for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
+		{
+			lowerCharSegments[i].a = (segments[UPPER_HORIZONTAL_BASE + i] == NOTHING) ? 0 : 1;
+		}
 
-	for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
-	{
-		lowerCharSegments[i].d = (segments[LOWER_HORIZONTAL_BASE + i] == NOTHING) ? 0 : 1;
-	}
+		for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
+		{
+			lowerCharSegments[i].e = (segments[LOWER_VERTICAL_BASE + i] == NOTHING) ? 0 : 1;
+		}
 
-	for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
-	{
-		lowerCharSegments[i].a = (segments[UPPER_HORIZONTAL_BASE + i] == NOTHING) ? 0 : 1;
-	}
+		for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
+		{
+			lowerCharSegments[i].f = (segments[UPPER_VERTICAL_BASE + i] == NOTHING) ? 0 : 1;
+		}
 
-	for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
-	{
-		lowerCharSegments[i].e = (segments[LOWER_VERTICAL_BASE + i] == NOTHING) ? 0 : 1;
-	}
+		lowerCharSegments[7].c = (segments[28] == NOTHING) ? 0 : 1;
+		lowerCharSegments[7].b = (segments[36] == NOTHING) ? 0 : 1;
 
-	for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
-	{
-		lowerCharSegments[i].f = (segments[UPPER_VERTICAL_BASE + i] == NOTHING) ? 0 : 1;
-	}
-
-	lowerCharSegments[7].c = (segments[28] == NOTHING) ? 0 : 1;
-	lowerCharSegments[7].b = (segments[36] == NOTHING) ? 0 : 1;
-
-	SegmentLCD_LowerSegments(lowerCharSegments);
+		SegmentLCD_LowerSegments(lowerCharSegments);
+		}
+	else
+		Decimalpoints_BlinkFiveTimes();
 
 }
 
 
-void Decimalpoints_BlinkFiveTimes(void)
+
+void Decimalpoints_BlinkFiveTimes(void) // if the game stops, blink the decimalpoints
 {
 	uint8_t i,p;
 
@@ -126,7 +135,7 @@ void Decimalpoints_BlinkFiveTimes(void)
 	  SegmentLCD_LowerSegments(lowerCharSegments);
     }
 
-	for (i=0;i<5;i++)
+	while(1)
 	{
 		SegmentLCD_Symbol(LCD_SYMBOL_DP2, 1);
 		SegmentLCD_Symbol(LCD_SYMBOL_DP3, 1);
