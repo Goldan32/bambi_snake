@@ -16,10 +16,6 @@
 #include "em_timer.h"
 
 
-volatile bool button_IT_flag = false;
-
-void Button_IRQ(void){
-
 int main(void)
 {
 
@@ -50,19 +46,15 @@ int main(void)
 
   /* Infinite loop */
   while (1) {
-	  if (!(BSP_ButtonsGet() & 0b00000000000000000000000000000001)){
-
-		  Decimalpoints_BlinkFiveTimes();
-		  myDelay_ms(2000);
-
-		  Screen_DrawAllSegments(SegmentRoles);
-	  }
 	  if(timerflag){
 		timerflag=false;
-		Screen_DrawAllSegments(&SegmentRoles[NUM_OF_SEGMENTS]);
+		Screen_DrawAllSegments(SegmentRoles);
 	  }
+	  if (!(BSP_ButtonsGet() & 0b00000000000000000000000000000001)){
 
-
+	  }
+	  else if(!(BSP_ButtonsGet() & 0b00000000000000000000000000000010)){
+	  }
 
   }
 }

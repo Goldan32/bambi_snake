@@ -10,8 +10,9 @@
 
 #include "em_timer.h"
 #include "kijelzo.h"
+#include "em_cmu.h"
 
-TIMER_Init_TypeDef TIMER1_init = TIMER_INIT_DEFAULT;
+
 _Bool timerflag;
 
 void myTimer_Init(void);
