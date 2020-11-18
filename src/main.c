@@ -14,16 +14,15 @@
 
 #include "bsp_stk_buttons.h"
 #include "em_timer.h"
-
+#include "em_core.h"
 
 int main(void)
 {
 
   /* user variable declarations */
-  _Bool btn0_ret=false;
-  _Bool btn1_ret=false;
-  _Bool checked=false;
-
+  _Bool button1_pressed;
+  _Bool button2_pressed;
+  
   /* Chip errata */
   CHIP_Init();
 
@@ -36,88 +35,41 @@ int main(void)
 
 
 
-
-
   /* user setup before infinite loop */
   Snake_StartSetup();
+
 
   /* Infinite loop */
   while (1)
   {
-
-	  if (!(BSP_ButtonsGet() & 0b00000000000000000000000000000001))
+	  if(!(BSP_ButtonsGet() & 0b00000000000000000000000000000001))
 	  {
-
-
-			  Snake_CalculateNextState(FORWARD_TURN);
-			  myDelay_ms(500);
-
-			  Snake_CalculateNextState(FORWARD_TURN);
-			  myDelay_ms(500);
-
-			  Snake_CalculateNextState(FORWARD_TURN);
-			  myDelay_ms(500);
-
-			  Snake_CalculateNextState(FORWARD_TURN);
-			  myDelay_ms(500);
-
-			  Snake_CalculateNextState(LEFT_TURN);
-			  myDelay_ms(500);
-
-			  Snake_CalculateNextState(FORWARD_TURN);
-			  myDelay_ms(500);
-
-			  Snake_CalculateNextState(FORWARD_TURN);
-			  myDelay_ms(500);
-
-			  Snake_CalculateNextState(FORWARD_TURN);
-			  myDelay_ms(500);
-
-			  Snake_CalculateNextState(RIGHT_TURN);
-			  myDelay_ms(500);
-
+		  button1_pressed = true;
 	  }
-
-
-
-	/*  if(timerflag)
+	  if(!(BSP_ButtonsGet() & 0b00000000000000000000000000000010))
+	  {
+		  button2_pressed = true;
+	  }
+	  if(timerflag)
 	  {
 	  		timerflag=false;
-	  		if (btn0_ret)
+	  		if (button1_pressed)
 	  		{
 	  			Snake_CalculateNextState(LEFT_TURN);
+	  			button1_pressed=false;
 	  		}
-	  		else if (btn1_ret)
-			{
+	  		else if(button2_pressed)
+	  		{
 	  			Snake_CalculateNextState(RIGHT_TURN);
-			}
+	  			button2_pressed=false;
+	  		}
 	  		else
-			{
-				Snake_CalculateNextState(FORWARD_TURN);
-			}
-	  		checked=false;
-
+	  		{
+	  			Snake_CalculateNextState(FORWARD_TURN);
+	  		}
+	  		Screen_DrawAllSegments(SegmentRoles);
+	  		SegmentLCD_Number(SnakeEndings.length);
 	  }
-	  if (!checked)
-	  {
-		  if (!(BSP_ButtonsGet() & 0b00000000000000000000000000000001))
-		  {
-			  btn0_ret=true;
-			  checked=true;
-		  }
-		  else if(!(BSP_ButtonsGet() & 0b00000000000000000000000000000010))
-		  {
-			  btn0_ret=true;
-			  checked=true;
-		  }
-		  else
-		  {
-			  btn0_ret=btn1_ret=false;
-		  }
-
-	  }
-
-*/
-
   }
+
 }
