@@ -151,10 +151,6 @@ void Snake_TurnLinkedList(TurnDirection turn)
 		}
 	}
 
-	if (SegmentRoles[SnakeEndings.head] == SNAKE)
-	{
-		EndOfGame_Function();
-	}
 	if (SegmentRoles[SnakeEndings.head] == FOOD)
 	{
 		SegmentRoles[SnakeEndings.head] = SNAKE;
@@ -164,9 +160,17 @@ void Snake_TurnLinkedList(TurnDirection turn)
 	else
 	{
 		for (i=SnakeEndings.head;Snake_LinkedList[i]!=SnakeEndings.tail;i=Snake_LinkedList[i]);
+		SegmentRoles[Snake_LinkedList[i]] = NOTHING;
 		Snake_LinkedList[i] = NUM_OF_SEGMENTS;
 		SnakeEndings.tail = i;
+
+		if (SegmentRoles[SnakeEndings.head] == SNAKE)
+			{
+				EndOfGame_Function();
+			}
 	}
+
+
 }
 
 
@@ -186,6 +190,7 @@ void LinkedList_ToDraw(segment_status* segments)
 		}
 	}
 	segments[SnakeEndings.tail] = SNAKE;
+
 }
 
 
@@ -193,6 +198,8 @@ void Snake_CalculateNextState(TurnDirection turn)
 {
 	Snake_TurnLinkedList(turn);
 	LinkedList_ToDraw(SegmentRoles);
+	Screen_DrawAllSegments(SegmentRoles);
+	SegmentLCD_Number(SnakeEndings.length);
 }
 
 void Snake_StartSetup(void)

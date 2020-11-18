@@ -37,7 +37,9 @@ void myTimer_Init(void){
 	// void TIMER_Init(TIMER_TypeDef *timer, const TIMER_Init_TypeDef *init)
 	TIMER_Init(TIMER1, &TIMER1_init);
 	// void TIMER_TopBufSet(TIMER_TypeDef *timer, uint32_t val)
+
 	TIMER_TopBufSet(TIMER1, 16000); // With prescale, it takes 0.5 sec to reach top
+
 	// Timer enable
 	TIMER_Enable(TIMER1, true);
 	// void TIMER_IntClear(TIMER_TypeDef *timer, uint32_t flags)

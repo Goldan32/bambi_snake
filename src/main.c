@@ -20,7 +20,9 @@ int main(void)
 {
 
   /* user variable declarations */
-
+  _Bool button1_pressed;
+  _Bool button2_pressed;
+  
   /* Chip errata */
   CHIP_Init();
 
@@ -31,10 +33,11 @@ int main(void)
   BSP_ButtonsInit();
   Game_Init();
 
+
+
   /* user setup before infinite loop */
   Snake_StartSetup();
-  _Bool button1_pressed;
-  _Bool button2_pressed;
+
 
   /* Infinite loop */
   while (1)
@@ -67,5 +70,6 @@ int main(void)
 	  		Screen_DrawAllSegments(SegmentRoles);
 	  		SegmentLCD_Number(SnakeEndings.length);
 	  }
-}
+  }
+
 }
