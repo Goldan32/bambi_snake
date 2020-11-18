@@ -18,7 +18,7 @@ typedef enum {RUNNING, STOP} game_status;
 /* a structure to logically describe the variables used in the game */
 typedef struct
 {
-	uint8_t score;
+
 
 	game_status status;
 	
@@ -82,7 +82,7 @@ void Snake_CalculateNextState(TurnDirection turn);
 
 void Snake_StartSetup(void);
 
-
+void EndOfGame_Function(void);
 
 
 /* ################################################################## */

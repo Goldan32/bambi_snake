@@ -24,7 +24,7 @@ void myTimer_Init(void){
 
 	TIMER1_init.enable = true;
 	TIMER1_init.debugRun = false;
-	TIMER1_init.prescale = timerPrescale8 ;
+	TIMER1_init.prescale =   timerPrescale1024 ;
 	TIMER1_init.clkSel = timerClkSelHFPerClk;
 	TIMER1_init.fallAction = timerInputActionNone;
 	TIMER1_init.riseAction = timerInputActionStart ;
@@ -34,11 +34,10 @@ void myTimer_Init(void){
 	TIMER1_init.oneShot = false;
 	TIMER1_init.sync = false;
 
-	// prescale valószínûleg nem jó, kikéne találni
 	// void TIMER_Init(TIMER_TypeDef *timer, const TIMER_Init_TypeDef *init)
 	TIMER_Init(TIMER1, &TIMER1_init);
 	// void TIMER_TopBufSet(TIMER_TypeDef *timer, uint32_t val)
-	TIMER_TopBufSet(TIMER1, 62500); // With prescale, it takes 0.5 sec to reach top
+	TIMER_TopBufSet(TIMER1, 16000); // With prescale, it takes 0.5 sec to reach top
 	// Timer enable
 	TIMER_Enable(TIMER1, true);
 	// void TIMER_IntClear(TIMER_TypeDef *timer, uint32_t flags)

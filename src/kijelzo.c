@@ -37,15 +37,15 @@ SingleSegment_Type SegmentNeighbors[NUM_OF_SEGMENTS]=
 		{12,27,35,13,34,26,11},
 		{13,28,36,7,35,27,12},
 
-		{14,22,30,15,21,29,20},		/* top horizontal row */
-		{15,23,31,16,22,30,14},
-		{16,24,32,17,23,31,15},
-		{17,25,33,18,24,32,16},
-		{18,26,34,19,25,33,17},
-		{19,27,35,20,26,34,18},
-		{20,28,36,14,27,35,19},
+		{14,22,30,15,29,21,20},		/* top horizontal row */
+		{15,23,31,16,30,22,14},
+		{16,24,32,17,31,23,15},
+		{17,25,33,18,32,24,16},
+		{18,26,34,19,33,25,17},
+		{19,27,35,20,34,26,18},
+		{20,28,36,14,35,27,19},
 
-		{21,6,0,29,7,13,29},		/* bottom horizontal row */
+		{21,6,0,29,7,13,29},		/* bottom vertical row */
 		{22,0,1,30,8,7,30},
 		{23,1,2,31,9,8,31},
 		{24,2,3,32,10,9,32},
@@ -54,14 +54,14 @@ SingleSegment_Type SegmentNeighbors[NUM_OF_SEGMENTS]=
 		{27,5,6,35,13,12,35},
 		{28,6,0,36,7,13,36},
 
-		{29,20,14,29,0,6,29},		/* bottom horizontal row */
-		{30,14,15,30,1,0,30},
-		{31,15,16,31,2,1,31},
-		{32,16,17,32,3,2,32},
-		{33,17,18,33,4,3,33},
-		{34,18,19,34,5,4,34},
-		{35,19,20,35,6,5,35},
-		{36,20,14,36,0,6,36},
+		{29,20,14,21,0,6,21},		/* top vertical row */
+		{30,14,15,22,1,0,22},
+		{31,15,16,23,2,1,23},
+		{32,16,17,24,3,2,24},
+		{33,17,18,25,4,3,25},
+		{34,18,19,26,5,4,26},
+		{35,19,20,27,6,5,27},
+		{36,20,14,28,0,6,28},
 
 };
 
@@ -70,9 +70,6 @@ segment_status SegmentRoles[NUM_OF_SEGMENTS] = {SNAKE, NOTHING};
 
 void Screen_DrawAllSegments(segment_status* segments)
 {
-	SegmentLCD_Number(GameController.score);
-
-	if(GameController.status == RUNNING)
 	{
 		uint8_t i;
 		SegmentLCD_LowerCharSegments_TypeDef lowerCharSegments[SEGMENT_LCD_NUM_OF_LOWER_CHARS]={0};
@@ -112,13 +109,11 @@ void Screen_DrawAllSegments(segment_status* segments)
 			lowerCharSegments[i].f = (segments[UPPER_VERTICAL_BASE + i] == NOTHING) ? 0 : 1;
 		}
 
-		lowerCharSegments[7].c = (segments[28] == NOTHING) ? 0 : 1;
-		lowerCharSegments[7].b = (segments[36] == NOTHING) ? 0 : 1;
+		lowerCharSegments[6].c = (segments[28] == NOTHING) ? 0 : 1;
+		lowerCharSegments[6].b = (segments[36] == NOTHING) ? 0 : 1;
 
 		SegmentLCD_LowerSegments(lowerCharSegments);
 		}
-	else
-		Decimalpoints_BlinkFiveTimes();
 
 }
 
@@ -126,7 +121,7 @@ void Screen_DrawAllSegments(segment_status* segments)
 
 void Decimalpoints_BlinkFiveTimes(void) // if the game stops, blink the decimalpoints
 {
-	uint8_t i,p;
+	uint8_t p;
 
 	SegmentLCD_LowerCharSegments_TypeDef lowerCharSegments[SEGMENT_LCD_NUM_OF_LOWER_CHARS];
 	for (p = 0; p < SEGMENT_LCD_NUM_OF_LOWER_CHARS; p++)
