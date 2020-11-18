@@ -20,6 +20,9 @@ int main(void)
 {
 
   /* user variable declarations */
+  _Bool btn0_ret=false;
+  _Bool btn1_ret=false;
+  _Bool checked=false;
 
   /* Chip errata */
   CHIP_Init();
@@ -31,30 +34,90 @@ int main(void)
   BSP_ButtonsInit();
   Game_Init();
 
+
+
+
+
   /* user setup before infinite loop */
   Snake_StartSetup();
 
   /* Infinite loop */
   while (1)
   {
-	  if(timerflag)
-	  {
-	  		timerflag=false;
-	  		Screen_DrawAllSegments(SegmentRoles);
-	  		SegmentLCD_Number(SnakeEndings.length);
-	  }
+
 	  if (!(BSP_ButtonsGet() & 0b00000000000000000000000000000001))
 	  {
-		  Snake_CalculateNextState(LEFT_TURN);
-	  }
-	  else if(!(BSP_ButtonsGet() & 0b00000000000000000000000000000010))
-	  {
-		  Snake_CalculateNextState(RIGHT_TURN);
-	  }
-	  else
-	  {
-		  Snake_CalculateNextState(FORWARD_TURN);
+
+
+			  Snake_CalculateNextState(FORWARD_TURN);
+			  myDelay_ms(500);
+
+			  Snake_CalculateNextState(FORWARD_TURN);
+			  myDelay_ms(500);
+
+			  Snake_CalculateNextState(FORWARD_TURN);
+			  myDelay_ms(500);
+
+			  Snake_CalculateNextState(FORWARD_TURN);
+			  myDelay_ms(500);
+
+			  Snake_CalculateNextState(LEFT_TURN);
+			  myDelay_ms(500);
+
+			  Snake_CalculateNextState(FORWARD_TURN);
+			  myDelay_ms(500);
+
+			  Snake_CalculateNextState(FORWARD_TURN);
+			  myDelay_ms(500);
+
+			  Snake_CalculateNextState(FORWARD_TURN);
+			  myDelay_ms(500);
+
+			  Snake_CalculateNextState(RIGHT_TURN);
+			  myDelay_ms(500);
+
 	  }
 
-}
+
+
+	/*  if(timerflag)
+	  {
+	  		timerflag=false;
+	  		if (btn0_ret)
+	  		{
+	  			Snake_CalculateNextState(LEFT_TURN);
+	  		}
+	  		else if (btn1_ret)
+			{
+	  			Snake_CalculateNextState(RIGHT_TURN);
+			}
+	  		else
+			{
+				Snake_CalculateNextState(FORWARD_TURN);
+			}
+	  		checked=false;
+
+	  }
+	  if (!checked)
+	  {
+		  if (!(BSP_ButtonsGet() & 0b00000000000000000000000000000001))
+		  {
+			  btn0_ret=true;
+			  checked=true;
+		  }
+		  else if(!(BSP_ButtonsGet() & 0b00000000000000000000000000000010))
+		  {
+			  btn0_ret=true;
+			  checked=true;
+		  }
+		  else
+		  {
+			  btn0_ret=btn1_ret=false;
+		  }
+
+	  }
+
+*/
+
+  }
 }
