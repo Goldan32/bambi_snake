@@ -16,8 +16,6 @@
 #include "em_timer.h"
 
 
-
-
 int main(void)
 {
 
@@ -32,6 +30,7 @@ int main(void)
   myDelay_Init();
   myTimer_Init();
   BSP_ButtonsInit();
+  Game_Init();
 
   /* user setup before infinite loop */
   for (iter=7;iter<14;iter++)
@@ -47,19 +46,15 @@ int main(void)
 
   /* Infinite loop */
   while (1) {
-	  if (!(BSP_ButtonsGet() & 0b00000000000000000000000000000001)){
-
-		  Decimalpoints_BlinkFiveTimes();
-		  myDelay_ms(2000);
-
-		  Screen_DrawAllSegments(SegmentRoles);
-	  }
 	  if(timerflag){
 		timerflag=false;
-		Screen_DrawAllSegments(SegmentRoles[NUM_OF_SEGMENTS]);
+		Screen_DrawAllSegments(SegmentRoles);
 	  }
+	  if (!(BSP_ButtonsGet() & 0b00000000000000000000000000000001)){
 
-
+	  }
+	  else if(!(BSP_ButtonsGet() & 0b00000000000000000000000000000010)){
+	  }
 
   }
 }

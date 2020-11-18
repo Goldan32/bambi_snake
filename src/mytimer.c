@@ -6,9 +6,6 @@
  */
 
 #include "mytimer.h"
-#include "em_timer.h"
-#include "kijelzo.h"
-
 
 
 void TIMER1_IRQHandler(void){
@@ -20,6 +17,7 @@ void TIMER1_IRQHandler(void){
  * Up-count: Counter counts up until it reaches the value in TIMERn_TOP, where it is reset to 0 before
 counting up again.
  */
+TIMER_Init_TypeDef TIMER1_init = TIMER_INIT_DEFAULT;
 
 void myTimer_Init(void){
 	CMU_ClockEnable(cmuClock_TIMER1, true);
