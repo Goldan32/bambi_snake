@@ -20,7 +20,6 @@
 /* ------------------------------------------------------------------- */
 
 void Game_Init(){
-	GameController.score=1;
 	GameController.status=RUNNING;
 }
 
@@ -147,7 +146,7 @@ void Snake_TurnLinkedList(TurnDirection turn)
 
 	if (SegmentRoles[SnakeEndings.head] == SNAKE)
 	{
-		/* TODO: Call end of game function */
+		EndOfGame_Function();
 	}
 	if (SegmentRoles[SnakeEndings.head] == FOOD)
 	{
@@ -186,7 +185,6 @@ void Snake_CalculateNextState(TurnDirection turn)
 {
 	Snake_TurnLinkedList(turn);
 	LinkedList_ToDraw(SegmentRoles);
-	Screen_DrawAllSegments(SegmentRoles);
 }
 
 void Snake_StartSetup(void)
@@ -203,7 +201,12 @@ void Snake_StartSetup(void)
 
 }
 
+void EndOfGame_Function(void)
+{
+	Decimalpoints_BlinkFiveTimes();
+	/* waiting for reset */
 
+};
 
 
 /* -------------------------------------------------------------- */

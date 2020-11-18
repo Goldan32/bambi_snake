@@ -20,7 +20,6 @@ int main(void)
 {
 
   /* user variable declarations */
-  uint8_t iter;
 
   /* Chip errata */
   CHIP_Init();
@@ -38,50 +37,24 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
+	  if(timerflag)
+	  {
+	  		timerflag=false;
+	  		Screen_DrawAllSegments(SegmentRoles);
+	  		SegmentLCD_Number(SnakeEndings.length);
+	  }
 	  if (!(BSP_ButtonsGet() & 0b00000000000000000000000000000001))
 	  {
-		 for (iter = 0; iter < 10 ;iter++)
-		 {
-			 Snake_CalculateNextState(FORWARD_TURN);
-			 myDelay_ms(500);
-
-			 Snake_CalculateNextState(FORWARD_TURN);
-			 myDelay_ms(500);
-
-			 Snake_CalculateNextState(FORWARD_TURN);
-			 myDelay_ms(500);
-
-			 Snake_CalculateNextState(FORWARD_TURN);
-			 myDelay_ms(500);
-
-			 Snake_CalculateNextState(RIGHT_TURN);
-			 myDelay_ms(500);
-
-			 Snake_CalculateNextState(RIGHT_TURN);
-			 myDelay_ms(500);
-
-			 Snake_CalculateNextState(FORWARD_TURN);
-			 myDelay_ms(500);
-
-			 Snake_CalculateNextState(FORWARD_TURN);
-			 myDelay_ms(500);
-
-			 Snake_CalculateNextState(FORWARD_TURN);
-			 myDelay_ms(500);
-		 }
-
-
+		  Snake_CalculateNextState(LEFT_TURN);
 	  }
 	  else if(!(BSP_ButtonsGet() & 0b00000000000000000000000000000010))
-    {
+	  {
+		  Snake_CalculateNextState(RIGHT_TURN);
 	  }
-	  /*if(timerflag){
-		timerflag=false;
-		Screen_DrawAllSegments(SegmentRoles); */
-  }
+	  else
+	  {
+		  Snake_CalculateNextState(FORWARD_TURN);
+	  }
 
-
-
-	  
-
+}
 }

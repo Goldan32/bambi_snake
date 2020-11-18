@@ -70,9 +70,6 @@ segment_status SegmentRoles[NUM_OF_SEGMENTS] = {SNAKE, NOTHING};
 
 void Screen_DrawAllSegments(segment_status* segments)
 {
-	SegmentLCD_Number(GameController.score);
-
-	if(GameController.status == RUNNING)
 	{
 		uint8_t i;
 		SegmentLCD_LowerCharSegments_TypeDef lowerCharSegments[SEGMENT_LCD_NUM_OF_LOWER_CHARS]={0};
@@ -117,8 +114,6 @@ void Screen_DrawAllSegments(segment_status* segments)
 
 		SegmentLCD_LowerSegments(lowerCharSegments);
 		}
-	else
-		Decimalpoints_BlinkFiveTimes();
 
 }
 
@@ -126,7 +121,7 @@ void Screen_DrawAllSegments(segment_status* segments)
 
 void Decimalpoints_BlinkFiveTimes(void) // if the game stops, blink the decimalpoints
 {
-	uint8_t i,p;
+	uint8_t p;
 
 	SegmentLCD_LowerCharSegments_TypeDef lowerCharSegments[SEGMENT_LCD_NUM_OF_LOWER_CHARS];
 	for (p = 0; p < SEGMENT_LCD_NUM_OF_LOWER_CHARS; p++)
