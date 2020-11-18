@@ -10,14 +10,28 @@
 
 #include "kijelzo.h"
 
-uint8_t choice;
-uint8_t iter;
 
+
+/* enumarated type to store the status of the game */
+typedef enum {RUNNING, STOP} game_status;
+
+/* a structure to logically describe the variables used in the game */
+typedef struct
+{
+	uint8_t score;
+
+	game_status status;
+	
+
+
+}GameControllerStruct;
+
+GameControllerStruct GameController;
+
+void Game_Init();
 void FoodSegment_Place();
 
-
 /* ################################################################## */
-
 
 /* Defining the state machine that controls the direction bit*/
 typedef enum {RIGHT_STATE, UP_STATE, DOWN_STATE, LEFT_STATE} DirectionState;
@@ -71,10 +85,7 @@ void Snake_StartSetup(void);
 
 
 
-
 /* ################################################################## */
-
-
 
 
 

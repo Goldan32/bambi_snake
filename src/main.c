@@ -16,8 +16,6 @@
 #include "em_timer.h"
 
 
-
-
 int main(void)
 {
 
@@ -32,6 +30,7 @@ int main(void)
   myDelay_Init();
   myTimer_Init();
   BSP_ButtonsInit();
+  Game_Init();
 
   /* user setup before infinite loop */
   Snake_StartSetup();
@@ -41,9 +40,6 @@ int main(void)
   {
 	  if (!(BSP_ButtonsGet() & 0b00000000000000000000000000000001))
 	  {
-
-
-
 		 for (iter = 0; iter < 10 ;iter++)
 		 {
 			 Snake_CalculateNextState(FORWARD_TURN);
@@ -75,14 +71,9 @@ int main(void)
 		 }
 
 
-
-
-		/* Snake_CalculateNextState(LEFT_TURN);
-		 myDelay_ms(500);
-
-		 Snake_CalculateNextState(LEFT_TURN);
-		 myDelay_ms(500); */
-
+	  }
+	  else if(!(BSP_ButtonsGet() & 0b00000000000000000000000000000010))
+    {
 	  }
 	  /*if(timerflag){
 		timerflag=false;
@@ -91,5 +82,6 @@ int main(void)
 
 
 
+	  
 
 }

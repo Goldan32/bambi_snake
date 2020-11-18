@@ -7,8 +7,6 @@
 
 #include "mytimer.h"
 
-TIMER_Init_TypeDef TIMER1_init = TIMER_INIT_DEFAULT;
-
 
 void TIMER1_IRQHandler(void){
 	TIMER_IntClear(TIMER1, _TIMER_IF_MASK);
@@ -19,6 +17,7 @@ void TIMER1_IRQHandler(void){
  * Up-count: Counter counts up until it reaches the value in TIMERn_TOP, where it is reset to 0 before
 counting up again.
  */
+TIMER_Init_TypeDef TIMER1_init = TIMER_INIT_DEFAULT;
 
 void myTimer_Init(void){
 	CMU_ClockEnable(cmuClock_TIMER1, true);
@@ -35,7 +34,7 @@ void myTimer_Init(void){
 	TIMER1_init.oneShot = false;
 	TIMER1_init.sync = false;
 
-	// prescale valószínûleg nem jó, kikéne találni
+	// prescale valÃ³szÃ­nÃ»leg nem jÃ³, kikÃ©ne talÃ¡lni
 	// void TIMER_Init(TIMER_TypeDef *timer, const TIMER_Init_TypeDef *init)
 	TIMER_Init(TIMER1, &TIMER1_init);
 	// void TIMER_TopBufSet(TIMER_TypeDef *timer, uint32_t val)

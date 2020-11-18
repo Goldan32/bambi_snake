@@ -1,3 +1,4 @@
+
 /*
  * game_logic.c
  *
@@ -18,14 +19,17 @@
 #define NUM_OF_SEGMENTS_32X    NUM_OF_SEGMENTS_16X, NUM_OF_SEGMENTS_16X
 /* ------------------------------------------------------------------- */
 
-
-
+void Game_Init(){
+	GameController.score=1;
+	GameController.status=RUNNING;
+}
 
 /*
  *Bad solution here
  */
-
 void FoodSegment_Place(){
+	uint8_t choice;
+	uint8_t iter;
 	bool full = true;
 	while(iter==NUM_OF_SEGMENTS-1){
 		if(SegmentRoles[iter]==NOTHING){
@@ -46,9 +50,7 @@ void FoodSegment_Place(){
 
 }
 
-
 /* -------------------------------------------------------------- */
-
 
 void Snake_TurnDirection(Direction_StateMachine_Type* this, TurnDirection turn)
 {
@@ -200,16 +202,6 @@ void Snake_StartSetup(void)
 	Screen_DrawAllSegments(SegmentRoles);
 
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
