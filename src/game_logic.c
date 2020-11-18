@@ -27,25 +27,32 @@ void Game_Init(){
  *Bad solution here
  */
 void FoodSegment_Place(){
-	uint8_t choice;
-	uint8_t iter;
-	bool full = true;
-	while(iter==NUM_OF_SEGMENTS-1){
-		if(SegmentRoles[iter]==NOTHING){
-			full=false;
-		}
-		else
-			iter=iter+1;
-	}
-	if(!full){
-	choice = rand() % NUM_OF_SEGMENTS;
-	while(!(SegmentRoles[choice]==NOTHING))
+
+	uint8_t size=0;
+	for(uint8_t i=0;i<NUM_OF_SEGMENTS;i++)
 	{
-		choice = rand() % NUM_OF_SEGMENTS;
+		if(SegmentRoles[i] == NOTHING)
+		{
+			size=size+1;
+		}
 	}
-	SegmentRoles[choice] = FOOD;
+
+	uint8_t *nothing_segment_array = (uint8_t*)malloc(size* sizeof(uint8_t));
+	uint8_t p=0;
+	for(uint8_t i=0;i<NUM_OF_SEGMENTS;i++)
+	{
+		if(SegmentRoles[i]== NOTHING)
+		{
+			nothing_segment_array[p] = i;
+			p=p+1;
+		}
+
 	}
-	else;
+
+	uint8_t choice=0;
+	choice = rand()% size;
+	SegmentRoles[nothing_segment_array[choice]] = FOOD;
+	free(nothing_segment_array);
 
 }
 
@@ -152,6 +159,7 @@ void Snake_TurnLinkedList(TurnDirection turn)
 	{
 		SegmentRoles[SnakeEndings.head] = SNAKE;
 		SnakeEndings.length++;
+		FoodSegment_Place();
 	}
 	else
 	{
@@ -194,7 +202,7 @@ void Snake_StartSetup(void)
 	for (i=1;i<NUM_OF_SEGMENTS;i++)
 		SegmentRoles[i] = NOTHING;
 
-	SegmentRoles[3] = FOOD;
+	//SegmentRoles[3] = FOOD;
 	SegmentRoles[9] = FOOD;
 
 	Screen_DrawAllSegments(SegmentRoles);

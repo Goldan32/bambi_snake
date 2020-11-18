@@ -13,7 +13,7 @@
 #include "em_cmu.h"
 
 
-_Bool timerflag;
+volatile _Bool timerflag;
 
 void myTimer_Init(void);
 
