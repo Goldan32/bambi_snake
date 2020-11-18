@@ -34,7 +34,7 @@ void myTimer_Init(void){
 	TIMER1_init.oneShot = false;
 	TIMER1_init.sync = false;
 
-	// prescale valószínûleg nem jó, kikéne találni
+	// prescale valÃ³szÃ­nÃ»leg nem jÃ³, kikÃ©ne talÃ¡lni
 	// void TIMER_Init(TIMER_TypeDef *timer, const TIMER_Init_TypeDef *init)
 	TIMER_Init(TIMER1, &TIMER1_init);
 	// void TIMER_TopBufSet(TIMER_TypeDef *timer, uint32_t val)

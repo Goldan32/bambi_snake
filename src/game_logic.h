@@ -14,8 +14,6 @@
 
 /* enumarated type to store the status of the game */
 typedef enum {RUNNING, STOP} game_status;
-/* enumarated type to store the snakes current direction */
-typedef enum {LEFT, RIGHT} game_direction;
 
 /* a structure to logically describe the variables used in the game */
 typedef struct
@@ -23,7 +21,7 @@ typedef struct
 	uint8_t score;
 
 	game_status status;
-	game_direction direction;
+	
 
 
 }GameControllerStruct;
@@ -33,9 +31,12 @@ GameControllerStruct GameController;
 void Game_Init();
 void FoodSegment_Place();
 
+/* ################################################################## */
+
+/* Defining the state machine that controls the direction bit*/
 typedef enum {RIGHT_STATE, UP_STATE, DOWN_STATE, LEFT_STATE} DirectionState;
 
-typedef enum {RIGHT_TURN, LEFT_TURN } TurnDirection;
+typedef enum {RIGHT_TURN, LEFT_TURN, FORWARD_TURN} TurnDirection;
 
 
 /* state machine, that controls the movement of the snake */
@@ -65,6 +66,7 @@ typedef struct
 {
 	uint8_t head;
 	uint8_t tail;
+	uint8_t length;
 }Snake_HeadAndTail;
 
 Snake_HeadAndTail SnakeEndings;
@@ -74,17 +76,16 @@ Snake_HeadAndTail SnakeEndings;
  * calculates the next state of the display */
 void Snake_TurnLinkedList(TurnDirection turn);
 
+void LinkedList_ToDraw(segment_status* segments);
 
+void Snake_CalculateNextState(TurnDirection turn);
 
-
-
+void Snake_StartSetup(void);
 
 
 
 
 /* ################################################################## */
-
-
 
 
 

@@ -20,3 +20,4 @@ void myTimer_Init(void);
 void TIMER1_IRQHandler(void);
 
 #endif /* SRC_MYTIMER_H_ */
+
