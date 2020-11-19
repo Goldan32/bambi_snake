@@ -104,7 +104,7 @@ Snake_HeadAndTail SnakeEndings = {0,0,1};
 
 void Snake_TurnLinkedList(TurnDirection turn)
 {
-	uint8_t i;
+	uint8_t i,k=0;
 
 	if (current_direction.down_or_left)
 	{
@@ -159,7 +159,7 @@ void Snake_TurnLinkedList(TurnDirection turn)
 	}
 	else
 	{
-		for (i=SnakeEndings.head;Snake_LinkedList[i]!=SnakeEndings.tail;i=Snake_LinkedList[i]);
+		for (i=SnakeEndings.head;Snake_LinkedList[i]!=SnakeEndings.tail;i=Snake_LinkedList[i]) {k++; if (k>37) EndOfGame_Function();}
 		SegmentRoles[Snake_LinkedList[i]] = NOTHING;
 		Snake_LinkedList[i] = NUM_OF_SEGMENTS;
 		SnakeEndings.tail = i;
@@ -198,8 +198,8 @@ void Snake_CalculateNextState(TurnDirection turn)
 {
 	Snake_TurnLinkedList(turn);
 	LinkedList_ToDraw(SegmentRoles);
-	Screen_DrawAllSegments(SegmentRoles);
-	SegmentLCD_Number(SnakeEndings.length);
+	//Screen_DrawAllSegments(SegmentRoles);
+	//SegmentLCD_Number(SnakeEndings.length);
 }
 
 void Snake_StartSetup(void)
