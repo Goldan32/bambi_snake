@@ -198,8 +198,6 @@ void Snake_CalculateNextState(TurnDirection turn)
 {
 	Snake_TurnLinkedList(turn);
 	LinkedList_ToDraw(SegmentRoles);
-	//Screen_DrawAllSegments(SegmentRoles);
-	//SegmentLCD_Number(SnakeEndings.length);
 }
 
 void Snake_StartSetup(void)
