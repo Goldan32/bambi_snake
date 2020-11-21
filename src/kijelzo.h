@@ -17,6 +17,30 @@
 
 #define NUM_OF_SEGMENTS 37
 
+/*
+ *  Each segment is defined by a number from 0 to 37
+ *
+ *	The number that defines each segment is shown here
+ *
+ *
+ *
+ *
+ * 	  ----  14 ----		 ----  15 ----		 ----  16 ----		 ----  17 ----		 ----  18 ----		 ----  19 ----		 ----  20 ----
+ *   |					|					|					|					|					|					|			  |
+ *   29					30					31					32					33					34					35			  36
+ *   |					|					|					|					|					|					|			  |
+ *    ----  0  ----		 ----  1  ----		 ----  2  ----		 ----  3  ----		 ----  4  ----		 ----  5  ----		 ----  6  ----
+ *   |					|					|					|					|					|					|			  |
+ *   21					22					23					24					25					26					27			  28
+ *   |					|					|					|					|					|					|			  |
+ *    ----  7  ----		 ----  8  ----		 ----  9  ----		 ----  10 ----		 ----  11 ----		 ----  12 ----		 ----  13 ----
+ *
+ *
+ *
+ */
+
+/* ====================== TYPEDEFS ============================= */
+
 /* enumarated type to store the status of a single segment */
 typedef enum {NOTHING, SNAKE, FOOD} segment_status;
 
@@ -35,7 +59,10 @@ typedef struct
 
 }SingleSegment_Type;
 
+/* ============================================================== */
 
+
+/* ====================== GLOBALS =============================== */
 
 /* describes an LCD segment as part of the game map */
 SingleSegment_Type SegmentNeighbors[NUM_OF_SEGMENTS];
@@ -44,7 +71,10 @@ SingleSegment_Type SegmentNeighbors[NUM_OF_SEGMENTS];
 segment_status SegmentRoles[NUM_OF_SEGMENTS];
 
 
+/* ============================================================== */
 
+
+/* ====================== FUNCTIONS ============================= */
 
 /* the decimal points start to blink and the screen is cleared, signals the end of the game */
 void Decimalpoints_BlinkFiveTimes(void);
@@ -53,7 +83,7 @@ void Decimalpoints_BlinkFiveTimes(void);
  * then it calls the uppersegments function to set/reset all segments according to the parameter*/
 void Screen_DrawAllSegments(segment_status* segments);
 
-
+/* ============================================================== */
 
 
 #endif /* SRC_KIJELZO_H_ */

@@ -20,8 +20,10 @@ int main(void)
 {
 
   /* user variable declarations */
-  _Bool button1_pressed;
-  _Bool button2_pressed;
+  _Bool button1_pressed=false;
+  _Bool button2_pressed=false;
+  _Bool input_rec=false;
+  uint16_t debounce=0;
   
   /* Chip errata */
   CHIP_Init();
@@ -42,33 +44,55 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-	  if(!(BSP_ButtonsGet() & 0b00000000000000000000000000000001))
+	  if(!input_rec)
 	  {
-		  button1_pressed = true;
-	  }
-	  if(!(BSP_ButtonsGet() & 0b00000000000000000000000000000010))
-	  {
-		  button2_pressed = true;
+		  if(debounce<500)
+		  {
+			  debounce++;
+		  }
+		  else
+		  {
+			  if (!BSP_ButtonGet(0))
+			  {
+				  button1_pressed=true;
+				  input_rec=true;
+			  }
+			  if (!BSP_ButtonGet(1))
+			  {
+				  button2_pressed=true;
+				  input_rec=true;
+			  }
+		  }
 	  }
 	  if(timerflag)
 	  {
-	  		timerflag=false;
-	  		if (button1_pressed)
-	  		{
-	  			Snake_CalculateNextState(LEFT_TURN);
-	  			button1_pressed=false;
-	  		}
-	  		else if(button2_pressed)
-	  		{
-	  			Snake_CalculateNextState(RIGHT_TURN);
-	  			button2_pressed=false;
-	  		}
-	  		else
-	  		{
-	  			Snake_CalculateNextState(FORWARD_TURN);
-	  		}
-	  		Screen_DrawAllSegments(SegmentRoles);
-	  		SegmentLCD_Number(SnakeEndings.length);
+
+		  timerflag=false;
+
+		  if (input_rec)
+		  {
+			  if(button1_pressed)
+			  {
+				  Snake_CalculateNextState(LEFT_TURN);
+				  button1_pressed=false;
+			  }
+			  else if (button2_pressed)
+			  {
+				  Snake_CalculateNextState(RIGHT_TURN);
+				  button2_pressed=false;
+			  }
+
+		  }
+		  else
+		  {
+			  Snake_CalculateNextState(FORWARD_TURN);
+		  }
+		  Screen_DrawAllSegments(SegmentRoles);
+		  SegmentLCD_Number(SnakeEndings.length);
+		  debounce=0;
+		  input_rec=false;
+
+
 	  }
   }
 
