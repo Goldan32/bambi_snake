@@ -13,7 +13,7 @@
 
 
 /* enumarated type to store the status of the game */
-typedef enum {RUNNING, STOP} game_status;
+typedef enum {RUNNING, RESTART} game_status;
 game_status status;
 
 

@@ -10,6 +10,7 @@
 //#include "my_delay.h"
 #include "game_logic.h"
 #include "mytimer.h"
+#include "bsp_stk_buttons.h"
 
 
 #define MIDDLE_HORIZONTAL_BASE 0
@@ -120,7 +121,7 @@ void Screen_DrawAllSegments(segment_status* segments)
 
 
 
-void Decimalpoints_BlinkFiveTimes(void) // if the game stops, blink the decimalpoints
+void Decimalpoints_BlinkFiveTimes(void)
 {
 	uint8_t p;
 	SegmentLCD_LowerCharSegments_TypeDef lowerCharSegments[SEGMENT_LCD_NUM_OF_LOWER_CHARS];
@@ -129,17 +130,44 @@ void Decimalpoints_BlinkFiveTimes(void) // if the game stops, blink the decimalp
 	  lowerCharSegments[p].raw = 0;
 	  SegmentLCD_LowerSegments(lowerCharSegments);
     }
-	while(1)
+
+	TIMER_Enable(TIMER2, true);
+	TIMER_IntClear(TIMER2, _TIMER_IF_MASK);
+	TIMER_IntEnable(TIMER2, TIMER_IEN_OF);
+	NVIC_ClearPendingIRQ(TIMER2_IRQn);
+	NVIC_EnableIRQ(TIMER2_IRQn);
+
+	_Bool lcd_on=false;
+
+	while(status==RUNNING)
 	{
-		SegmentLCD_Symbol(LCD_SYMBOL_DP2, 1);
-		SegmentLCD_Symbol(LCD_SYMBOL_DP3, 1);
-		SegmentLCD_Symbol(LCD_SYMBOL_DP4, 1);
-		SegmentLCD_Symbol(LCD_SYMBOL_DP5, 1);
-		myDelay_ms(5000);
-		SegmentLCD_Symbol(LCD_SYMBOL_DP2, 0);
-		SegmentLCD_Symbol(LCD_SYMBOL_DP3, 0);
-		SegmentLCD_Symbol(LCD_SYMBOL_DP4, 0);
-		SegmentLCD_Symbol(LCD_SYMBOL_DP5, 0);
-		myDelay_ms(5000);
+		/*BSP_ButtonsGet is 0, if*/
+		if(!(BSP_ButtonsGet()==0b00000000000000000000000000000011))
+		{
+			status=RESTART;
+		}
+		else
+		{
+			if(mydelayflag)
+			{
+				mydelayflag=false;
+				if(lcd_on)
+				{
+					SegmentLCD_Symbol(LCD_SYMBOL_DP2, 0);
+					SegmentLCD_Symbol(LCD_SYMBOL_DP3, 0);
+					SegmentLCD_Symbol(LCD_SYMBOL_DP4, 0);
+					SegmentLCD_Symbol(LCD_SYMBOL_DP5, 0);
+					lcd_on=false;
+				}
+				else
+				{
+					SegmentLCD_Symbol(LCD_SYMBOL_DP2, 1);
+					SegmentLCD_Symbol(LCD_SYMBOL_DP3, 1);
+					SegmentLCD_Symbol(LCD_SYMBOL_DP4, 1);
+					SegmentLCD_Symbol(LCD_SYMBOL_DP5, 1);
+					lcd_on=true;
+				}
+			}
+		}
 	}
 }

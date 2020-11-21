@@ -9,13 +9,13 @@
 
 
 /*initialize clock for the delay function, called at the top of main*/
-void myDelay_Init(void)
+/*void myDelay_Init(void)
 {
 	CMU_ClockEnable(cmuClock_CORELE, true);
 	CMU_ClockSelectSet(cmuClock_LFA, cmuSelect_LFRCO);
 	CMU_ClockEnable(cmuClock_RTC, true);
 	CMU_ClockEnable(cmuClock_TIMER0, true);
-}
+}*/
 
 
 /*delay of "parameter" milliseconds*/

@@ -32,8 +32,9 @@ int main(void)
 
   /* user inits */
   SegmentLCD_Init(false);
-  myDelay_Init();
+  //myDelay_Init();
   myTimer1_Init();
+  myTimer2_Init();
   BSP_ButtonsInit();
 
 
@@ -44,6 +45,7 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
+	  Decimalpoints_BlinkFiveTimes();
 	  if(!(BSP_ButtonsGet() & 0b00000000000000000000000000000001))
 	  {
 		  button1_pressed = true;
