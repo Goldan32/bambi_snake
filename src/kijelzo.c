@@ -11,7 +11,8 @@
 #include "game_logic.h"
 #include "mytimer.h"
 
-
+/* Macros to help iterate through the segments.
+ * Basically the values of the segments of the left most digit. */
 #define MIDDLE_HORIZONTAL_BASE 0
 #define LOWER_HORIZONTAL_BASE 7
 #define UPPER_HORIZONTAL_BASE 14
@@ -19,7 +20,7 @@
 #define UPPER_VERTICAL_BASE 29
 
 
-
+/* This variable contains the neighbors off all the segments */
 SingleSegment_Type SegmentNeighbors[NUM_OF_SEGMENTS]=
 {
 		{0,30,22,1,21,29,6},		/* middle horizontal row */
@@ -66,6 +67,7 @@ SingleSegment_Type SegmentNeighbors[NUM_OF_SEGMENTS]=
 
 };
 
+
 segment_status SegmentRoles[NUM_OF_SEGMENTS] = {SNAKE, NOTHING};
 
 
@@ -73,8 +75,14 @@ void Screen_DrawAllSegments(segment_status* segments)
 {
 	{
 		uint8_t i;
+
+		/* A variable with type defined in "segmentlcd_individual.h" passed to function also defined there */
 		SegmentLCD_LowerCharSegments_TypeDef lowerCharSegments[SEGMENT_LCD_NUM_OF_LOWER_CHARS]={0};
 
+
+		/* Iterate through all 2 vertical and 3 horizontal rows */
+
+		/* In the middle row, one logical segment is made up of two physical segments */
 		for (i=0;i<SEGMENT_LCD_NUM_OF_LOWER_CHARS;i++)
 		{
 			if (segments[MIDDLE_HORIZONTAL_BASE + i] == NOTHING)
@@ -110,17 +118,21 @@ void Screen_DrawAllSegments(segment_status* segments)
 			lowerCharSegments[i].f = (segments[UPPER_VERTICAL_BASE + i] == NOTHING) ? 0 : 1;
 		}
 
+
+		/* Can't iterate through these two using macros, better to have them here */
 		lowerCharSegments[6].c = (segments[28] == NOTHING) ? 0 : 1;
 		lowerCharSegments[6].b = (segments[36] == NOTHING) ? 0 : 1;
 
+
+		/* Calling the drawing function from the segmentlcd_individual driver */
 		SegmentLCD_LowerSegments(lowerCharSegments);
 		}
 
 }
 
 
-
-void Decimalpoints_BlinkFiveTimes(void) // if the game stops, blink the decimalpoints
+/* This Function uses the segmentlcd_individual driver for blinking the decimal points */
+void Decimalpoints_BlinkFiveTimes(void)
 {
 	uint8_t p;
 	SegmentLCD_LowerCharSegments_TypeDef lowerCharSegments[SEGMENT_LCD_NUM_OF_LOWER_CHARS];

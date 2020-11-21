@@ -45,7 +45,8 @@ void myTimer1_Init(void){
 
 	TIMER_Init(TIMER1, &TIMER1_init);
 
-	/* With prescale, it takes 0.5 sec to reach top when buffer is 7000 */
+
+	/* With prescale, it takes 0.5 sec to reach top when buffer is 6836 */
 	TIMER_TopBufSet(TIMER1, 16000);
 
 	TIMER_Enable(TIMER1, true);
