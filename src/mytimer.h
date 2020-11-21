@@ -22,6 +22,7 @@ void myTimer1_Init(void);
 void myTimer2_init(void);
 
 void TIMER1_IRQHandler(void);
+void TIMER2_IRQHandler(void);
 
 void myDelay_ms(uint32_t ms);
 
