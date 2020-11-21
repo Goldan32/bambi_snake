@@ -156,6 +156,7 @@ void Snake_TurnLinkedList(TurnDirection turn)
 		SegmentRoles[SnakeEndings.head] = SNAKE;
 		SnakeEndings.length++;
 		FoodSegment_Place();
+		return;
 	}
 	else
 	{
@@ -167,7 +168,9 @@ void Snake_TurnLinkedList(TurnDirection turn)
 		if (SegmentRoles[SnakeEndings.head] == SNAKE)
 			{
 				EndOfGame_Function();
+				return;
 			}
+		return;
 	}
 
 
