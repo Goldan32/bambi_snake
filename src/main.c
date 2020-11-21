@@ -15,6 +15,8 @@
 #include "bsp_stk_buttons.h"
 #include "em_timer.h"
 #include "em_core.h"
+#include "time.h"
+#include "stdlib.h"
 
 int main(void)
 {
@@ -26,18 +28,18 @@ int main(void)
   /* Chip errata */
   CHIP_Init();
 
+  srand(time(NULL));
+
   /* user inits */
   SegmentLCD_Init(false);
   myDelay_Init();
-  myTimer_Init();
+  myTimer1_Init();
   BSP_ButtonsInit();
-  Game_Init();
 
 
 
   /* user setup before infinite loop */
   Snake_StartSetup();
-
 
   /* Infinite loop */
   while (1)
@@ -68,7 +70,7 @@ int main(void)
 	  			Snake_CalculateNextState(FORWARD_TURN);
 	  		}
 	  		Screen_DrawAllSegments(SegmentRoles);
-	  		SegmentLCD_Number(SnakeEndings.length);
+	  		//SegmentLCD_Number(SnakeEndings.length);
 	  }
   }
 

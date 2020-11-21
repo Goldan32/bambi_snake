@@ -7,8 +7,9 @@
 
 
 #include "kijelzo.h"
-#include "my_delay.h"
+//#include "my_delay.h"
 #include "game_logic.h"
+#include "mytimer.h"
 
 
 #define MIDDLE_HORIZONTAL_BASE 0
@@ -122,25 +123,23 @@ void Screen_DrawAllSegments(segment_status* segments)
 void Decimalpoints_BlinkFiveTimes(void) // if the game stops, blink the decimalpoints
 {
 	uint8_t p;
-
 	SegmentLCD_LowerCharSegments_TypeDef lowerCharSegments[SEGMENT_LCD_NUM_OF_LOWER_CHARS];
 	for (p = 0; p < SEGMENT_LCD_NUM_OF_LOWER_CHARS; p++)
 	{
 	  lowerCharSegments[p].raw = 0;
 	  SegmentLCD_LowerSegments(lowerCharSegments);
     }
-
 	while(1)
 	{
 		SegmentLCD_Symbol(LCD_SYMBOL_DP2, 1);
 		SegmentLCD_Symbol(LCD_SYMBOL_DP3, 1);
 		SegmentLCD_Symbol(LCD_SYMBOL_DP4, 1);
 		SegmentLCD_Symbol(LCD_SYMBOL_DP5, 1);
-		myDelay_ms(250);
+		myDelay_ms(5000);
 		SegmentLCD_Symbol(LCD_SYMBOL_DP2, 0);
 		SegmentLCD_Symbol(LCD_SYMBOL_DP3, 0);
 		SegmentLCD_Symbol(LCD_SYMBOL_DP4, 0);
 		SegmentLCD_Symbol(LCD_SYMBOL_DP5, 0);
-		myDelay_ms(250);
+		myDelay_ms(5000);
 	}
 }

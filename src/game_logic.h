@@ -14,21 +14,9 @@
 
 /* enumarated type to store the status of the game */
 typedef enum {RUNNING, STOP} game_status;
-
-/* a structure to logically describe the variables used in the game */
-typedef struct
-{
+game_status status;
 
 
-	game_status status;
-	
-
-
-}GameControllerStruct;
-
-GameControllerStruct GameController;
-
-void Game_Init();
 void FoodSegment_Place();
 
 /* ################################################################## */

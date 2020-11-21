@@ -11,6 +11,7 @@
 #include "kijelzo.h"
 #include "stdlib.h"
 
+
 /* ----------- macros to help initialize an array -------------------- */
 #define NUM_OF_SEGMENTS_2X     NUM_OF_SEGMENTS,  NUM_OF_SEGMENTS
 #define NUM_OF_SEGMENTS_4X     NUM_OF_SEGMENTS_2X,  NUM_OF_SEGMENTS_2X
@@ -19,12 +20,10 @@
 #define NUM_OF_SEGMENTS_32X    NUM_OF_SEGMENTS_16X, NUM_OF_SEGMENTS_16X
 /* ------------------------------------------------------------------- */
 
-void Game_Init(){
-	GameController.status=RUNNING;
-}
 
 /*
- *Bad solution here
+ * This function makes a dinamic array, where all elements are nothing-rolled segment id-s
+ * The function choose a random element, and assigns a "FOOD" role, to that particular segment.
  */
 void FoodSegment_Place(){
 
@@ -52,6 +51,7 @@ void FoodSegment_Place(){
 	uint8_t choice=0;
 	choice = rand()% size;
 	SegmentRoles[nothing_segment_array[choice]] = FOOD;
+	SegmentLCD_Number(nothing_segment_array[choice]);
 	free(nothing_segment_array);
 
 }
@@ -198,8 +198,6 @@ void Snake_CalculateNextState(TurnDirection turn)
 {
 	Snake_TurnLinkedList(turn);
 	LinkedList_ToDraw(SegmentRoles);
-	Screen_DrawAllSegments(SegmentRoles);
-	SegmentLCD_Number(SnakeEndings.length);
 }
 
 void Snake_StartSetup(void)
