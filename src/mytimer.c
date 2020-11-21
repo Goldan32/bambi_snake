@@ -7,7 +7,7 @@
 
 #include "mytimer.h"
 
-
+/* When it reaches the top, it sends an interrupt */
 void TIMER1_IRQHandler(void){
 	TIMER_IntClear(TIMER1, _TIMER_IF_MASK);
 	timerflag=true;
@@ -18,37 +18,83 @@ void TIMER1_IRQHandler(void){
 counting up again.
  */
 TIMER_Init_TypeDef TIMER1_init = TIMER_INIT_DEFAULT;
+TIMER_Init_TypeDef TIMER2_init = TIMER_INIT_DEFAULT;
 
-void myTimer_Init(void){
+/*	If HFPERCLK is 14MHz:
+ * 			14 MHz / 1024 (prescale) = 13.67 kHz
+ * 			----> 0.07314 ms ---> 73.14 us is 1 tick
+ * 	for 1 second, 13672 tick needed
+ * 	for 0.5 second, 6836 tick needed
+ * 	...
+ */
+void myTimer1_Init(void){
+
 	CMU_ClockEnable(cmuClock_TIMER1, true);
 
 	TIMER1_init.enable = true;
-	TIMER1_init.debugRun = false;
-	TIMER1_init.prescale =   timerPrescale1024 ;
-	TIMER1_init.clkSel = timerClkSelHFPerClk;
-	TIMER1_init.fallAction = timerInputActionNone;
-	TIMER1_init.riseAction = timerInputActionStart ;
-	TIMER1_init.mode =timerModeUp ;
-	TIMER1_init.dmaClrAct = true;
-	TIMER1_init.quadModeX4 = false;
-	TIMER1_init.oneShot = false;
-	TIMER1_init.sync = false;
+	TIMER1_init.debugRun 	= false;
+	TIMER1_init.prescale 	= timerPrescale1024;
+	TIMER1_init.clkSel 		= timerClkSelHFPerClk;
+	TIMER1_init.fallAction 	= timerInputActionNone;
+	TIMER1_init.riseAction 	= timerInputActionStart;
+	TIMER1_init.mode 		= timerModeUp;
+	TIMER1_init.dmaClrAct 	= true;
+	TIMER1_init.quadModeX4 	= false;
+	TIMER1_init.oneShot 	= false;
+	TIMER1_init.sync 		= false;
 
-	// void TIMER_Init(TIMER_TypeDef *timer, const TIMER_Init_TypeDef *init)
 	TIMER_Init(TIMER1, &TIMER1_init);
-	// void TIMER_TopBufSet(TIMER_TypeDef *timer, uint32_t val)
 
-	TIMER_TopBufSet(TIMER1, 10000); // With prescale, it takes 0.5 sec to reach top
 
-	// Timer enable
+	/* With prescale, it takes 0.5 sec to reach top when buffer is 6836 */
+	TIMER_TopBufSet(TIMER1, 16000);
+
 	TIMER_Enable(TIMER1, true);
-	// void TIMER_IntClear(TIMER_TypeDef *timer, uint32_t flags)
 	TIMER_IntClear(TIMER1, _TIMER_IF_MASK);
-	// void TIMER_IntEnable(TIMER_TypeDef *timer, uint32_t flags)
 	TIMER_IntEnable(TIMER1, TIMER_IEN_OF);
-	// NVIC_ClearPendingIRQ(IRQn_Type IRQn)
 	NVIC_ClearPendingIRQ(TIMER1_IRQn);
-	// NVIC_EnableIRQ(IRQn_Type IRQn)
 	NVIC_EnableIRQ(TIMER1_IRQn);
 
 };
+
+void myTimer2_Init(void){
+
+	CMU_ClockEnable(cmuClock_TIMER2, true);
+
+	TIMER1_init.enable 		= true;
+	TIMER1_init.debugRun 	= false;
+	TIMER1_init.prescale 	= timerPrescale1024;
+	TIMER1_init.clkSel 		= timerClkSelHFPerClk;
+	TIMER1_init.fallAction 	= timerInputActionNone;
+	TIMER1_init.riseAction 	= timerInputActionStart;
+	TIMER1_init.mode 		= timerModeUp;
+	TIMER1_init.dmaClrAct 	= true;
+	TIMER1_init.quadModeX4 	= false;
+	TIMER1_init.oneShot 	= false;
+	TIMER1_init.sync 		= false;
+
+	TIMER_Init(TIMER2, &TIMER2_init);
+
+	TIMER_TopBufSet(TIMER2, 30000);
+
+
+};
+
+void myDelay_ms(uint32_t ms)
+{
+	/* endValue is = one tick in ms * input in ms */
+	uint8_t endValue = ms*TIMER1_FREQ;
+
+	TIMER_CounterSet(TIMER2, 0);
+	TIMER_Enable(TIMER2, true);
+
+	/* Wait, till it reaches our desired amount of delay */
+	while(!(TIMER_CounterGet(TIMER2)<endValue));
+
+	TIMER_Enable(TIMER2, false);
+
+
+}
+
+
+

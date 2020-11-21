@@ -17,6 +17,6 @@
 #define TIMER_FREQ 48000000
 
 void myDelay_Init(void);
-void myDelay_ms(int ms);
+//void myDelay_ms(int ms);
 
 #endif /* SRC_MY_DELAY_H_ */

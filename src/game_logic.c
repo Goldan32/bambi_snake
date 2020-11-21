@@ -11,6 +11,7 @@
 #include "kijelzo.h"
 #include "stdlib.h"
 
+
 /* ----------- macros to help initialize an array -------------------- */
 #define NUM_OF_SEGMENTS_2X     NUM_OF_SEGMENTS,  NUM_OF_SEGMENTS
 #define NUM_OF_SEGMENTS_4X     NUM_OF_SEGMENTS_2X,  NUM_OF_SEGMENTS_2X
@@ -19,14 +20,14 @@
 #define NUM_OF_SEGMENTS_32X    NUM_OF_SEGMENTS_16X, NUM_OF_SEGMENTS_16X
 /* ------------------------------------------------------------------- */
 
-void Game_Init(){
-	GameController.status=RUNNING;
 
-}
 
+/*
+ * This function makes a dinamic array, where all elements are nothing-rolled segment id-s
+ * The function choose a random element, and assigns a "FOOD" role, to that particular segment.
+ */
 void FoodSegment_Place(){
 
-	//srand(time(0));
 	uint8_t size=0;
 	for(uint8_t i=0;i<NUM_OF_SEGMENTS;i++)
 	{
@@ -54,8 +55,6 @@ void FoodSegment_Place(){
 	free(nothing_segment_array);
 
 }
-
-/* -------------------------------------------------------------- */
 
 
 /* First parameter is the instance of the state machine. Second parameter is where the snake is turning. */
@@ -246,8 +245,8 @@ void Snake_StartSetup(void)
 		SegmentRoles[i] = NOTHING;
 
 
-	/* TODO: Koren ha itt vagy, akkor hívd már meg a random foodot lerakú függvényt a kövi sor helyett,
-	 * mert Angiéknak ezért dobta vissza, hogy mindig ugyanaz az elsõ kigyulladó szegmens */
+	/* TODO: Koren ha itt vagy, akkor hÃ­vd mÃ¡r meg a random foodot lerakÃº fÃ¼ggvÃ©nyt a kÃ¶vi sor helyett,
+	 * mert AngiÃ©knak ezÃ©rt dobta vissza, hogy mindig ugyanaz az elsÃµ kigyulladÃ³ szegmens */
 	SegmentRoles[9] = FOOD;
 
 	Screen_DrawAllSegments(SegmentRoles);
@@ -261,5 +260,3 @@ void EndOfGame_Function(void)
 
 };
 
-
-/* -------------------------------------------------------------- */

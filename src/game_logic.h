@@ -9,25 +9,8 @@
 #define SRC_GAME_LOGIC_H_
 
 #include "kijelzo.h"
-//#include <time.h>
 
 /* ====================== TYPEDEFS/ENUMS ============================= */
-
-/* Enumarated type to store the status of the game */
-typedef enum {RUNNING, STOP} game_status;
-
-
-/* A structure to logically describe the variables used in the game */
-typedef struct
-{
-
-
-	game_status status;
-	
-
-
-}GameControllerStruct;
-
 
 /* The states of the direction state machine */
 /* Defining the state machine that controls the direction bit */
@@ -67,9 +50,6 @@ typedef struct
 Snake_HeadAndTail SnakeEndings;
 
 
-GameControllerStruct GameController;
-
-
 /* Instantiation of the direction state machine. With this variable, every function can access the direction bit (down_or_left) */
 Direction_StateMachine_Type current_direction;
 
@@ -82,10 +62,6 @@ uint8_t Snake_BackwardLinkedList[NUM_OF_SEGMENTS];
 /* =================================================================== */
 
 /* ========================= FUNCTIONS =============================== */
-
-
-/* Kell ez még? */
-void Game_Init();
 
 
 /* Turns a random NOTHING segment into FOOD segment. Called, when the player eats the previously placed food. */
