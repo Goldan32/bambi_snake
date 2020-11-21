@@ -10,6 +10,7 @@
 #include "game_logic.h"
 #include "kijelzo.h"
 #include "stdlib.h"
+#include "mytimer.h"
 
 
 /* ----------- macros to help initialize an array -------------------- */
@@ -19,7 +20,6 @@
 #define NUM_OF_SEGMENTS_16X    NUM_OF_SEGMENTS_8X,  NUM_OF_SEGMENTS_8X
 #define NUM_OF_SEGMENTS_32X    NUM_OF_SEGMENTS_16X, NUM_OF_SEGMENTS_16X
 /* ------------------------------------------------------------------- */
-
 
 
 /*
@@ -176,7 +176,6 @@ void Snake_TurnLinkedList(TurnDirection turn)
 		SegmentRoles[SnakeEndings.head] = SNAKE;
 		SnakeEndings.length++;
 		FoodSegment_Place();
-		return;
 	}
 	else /* If the next head was not food. */
 	{
@@ -187,7 +186,11 @@ void Snake_TurnLinkedList(TurnDirection turn)
 			/* Snake can't be longer, than how many segments there are.
 			 * If this counter moves past NUM_OF_SEGMENTS, the snake bit into itself, causing an endless loop */
 			k++;
-			if (k>NUM_OF_SEGMENTS) EndOfGame_Function();
+			if (k>NUM_OF_SEGMENTS)
+			{
+				EndOfGame_Function();
+				return;
+			}
 		}
 		/* After the for cycle, i is the number of the segment that points to the tail in the linked list. */
 
@@ -201,7 +204,6 @@ void Snake_TurnLinkedList(TurnDirection turn)
 				EndOfGame_Function();
 				return;
 			}
-		return;
 	}
 
 
@@ -237,20 +239,23 @@ void LinkedList_ToDraw(segment_status* segments)
 void Snake_CalculateNextState(TurnDirection turn)
 {
 	Snake_TurnLinkedList(turn);
+	if(status==RESTARTING)
+	{
+		return;
+	}
 	LinkedList_ToDraw(SegmentRoles);
+
 }
 
 void Snake_StartSetup(void)
 {
+
 	uint8_t i;
 	SegmentRoles[0] = SNAKE; /* Starting segment specified in the homework */
 	for (i=1;i<NUM_OF_SEGMENTS;i++) /* The rest are NOTHING */
 		SegmentRoles[i] = NOTHING;
 
-
-	/* TODO: Koren ha itt vagy, akkor hívd már meg a random foodot lerakú függvényt a kövi sor helyett,
-	 * mert Angiéknak ezért dobta vissza, hogy mindig ugyanaz az elsõ kigyulladó szegmens */
-	SegmentRoles[9] = FOOD;
+	FoodSegment_Place();
 
 	Screen_DrawAllSegments(SegmentRoles);
 
@@ -263,3 +268,27 @@ void EndOfGame_Function(void)
 
 };
 
+
+
+void Game_Init(void)
+{
+
+	  myTimer1_Init();
+	  TIMER_Enable(TIMER1, false);
+	  myTimer2_Init();
+	  current_direction.down_or_left = false;
+	  current_direction.current_state = RIGHT_STATE;
+	  for(uint8_t i = 0; i<NUM_OF_SEGMENTS; i++)
+	  {
+		  Snake_LinkedList[i] = NUM_OF_SEGMENTS;
+	  }
+	  SnakeEndings.head = 0;
+	  SnakeEndings.tail = 0;
+	  SnakeEndings.length = 1;
+	  Snake_StartSetup();
+	  status=RUNNING;
+	  debounce=0;
+	  button1_pressed=false;
+	  button2_pressed=false;
+	  input_rec=false;
+}

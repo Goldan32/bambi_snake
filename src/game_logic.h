@@ -12,6 +12,16 @@
 
 /* ====================== TYPEDEFS/ENUMS ============================= */
 
+typedef enum {RUNNING, RESTARTING} GameState;
+GameState status;
+
+_Bool button1_pressed;
+_Bool button2_pressed;
+_Bool input_rec;
+uint16_t debounce;
+
+void Game_Init(void);
+
 /* The states of the direction state machine */
 /* Defining the state machine that controls the direction bit */
 typedef enum {RIGHT_STATE, UP_STATE, DOWN_STATE, LEFT_STATE} DirectionState;

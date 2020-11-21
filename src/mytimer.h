@@ -16,10 +16,11 @@
 #define TIMER1_FREQ 13.672;
 
 volatile _Bool timerflag;
+volatile _Bool mydelayflag;
 
 void myTimer1_Init(void);
 
-void myTimer2_init(void);
+void myTimer2_Init(void);
 
 void TIMER1_IRQHandler(void);
 void TIMER2_IRQHandler(void);
@@ -27,4 +28,3 @@ void TIMER2_IRQHandler(void);
 void myDelay_ms(uint32_t ms);
 
 #endif /* SRC_MYTIMER_H_ */
-
