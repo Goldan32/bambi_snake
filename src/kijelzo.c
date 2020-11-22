@@ -10,6 +10,7 @@
 //#include "my_delay.h"
 #include "game_logic.h"
 #include "mytimer.h"
+#include "bsp_stk_buttons.h"
 
 /* Macros to help iterate through the segments.
  * Basically the values of the segments of the left most digit. */
@@ -141,17 +142,52 @@ void Decimalpoints_BlinkFiveTimes(void)
 	  lowerCharSegments[p].raw = 0;
 	  SegmentLCD_LowerSegments(lowerCharSegments);
     }
+
+	/* Since we only use Timer2 interrupt in this function, this is the only time where we need to enable the interrupts for Tierm2*/
+	TIMER_Enable(TIMER2, true);
+	TIMER_IntClear(TIMER2, _TIMER_IF_MASK);
+	TIMER_IntEnable(TIMER2, TIMER_IEN_OF);
+	NVIC_ClearPendingIRQ(TIMER2_IRQn);
+	NVIC_EnableIRQ(TIMER2_IRQn);
+
+	_Bool lcd_on=false;
+
 	while(1)
 	{
-		SegmentLCD_Symbol(LCD_SYMBOL_DP2, 1);
-		SegmentLCD_Symbol(LCD_SYMBOL_DP3, 1);
-		SegmentLCD_Symbol(LCD_SYMBOL_DP4, 1);
-		SegmentLCD_Symbol(LCD_SYMBOL_DP5, 1);
-		myDelay_ms(5000);
-		SegmentLCD_Symbol(LCD_SYMBOL_DP2, 0);
-		SegmentLCD_Symbol(LCD_SYMBOL_DP3, 0);
-		SegmentLCD_Symbol(LCD_SYMBOL_DP4, 0);
-		SegmentLCD_Symbol(LCD_SYMBOL_DP5, 0);
-		myDelay_ms(5000);
+		/*If one of the buttons are pressed, restart the game*/
+		if(!(BSP_ButtonsGet()==BUTTONS_MASK))
+		{
+			status=RESTARTING;
+			SegmentLCD_Symbol(LCD_SYMBOL_DP2, 0);
+			SegmentLCD_Symbol(LCD_SYMBOL_DP3, 0);
+			SegmentLCD_Symbol(LCD_SYMBOL_DP4, 0);
+			SegmentLCD_Symbol(LCD_SYMBOL_DP5, 0);
+			return;
+		}
+		else
+		{
+			/*Every 0.5 seconds TIMER2 gives us an interrupt, where he toogles mydelayflag
+			 * If the decimalsymbols were on previously, then switch them off, visa versa*/
+			if(mydelayflag)
+			{
+				mydelayflag=false;
+				if(lcd_on)
+				{
+					SegmentLCD_Symbol(LCD_SYMBOL_DP2, 0);
+					SegmentLCD_Symbol(LCD_SYMBOL_DP3, 0);
+					SegmentLCD_Symbol(LCD_SYMBOL_DP4, 0);
+					SegmentLCD_Symbol(LCD_SYMBOL_DP5, 0);
+					lcd_on=false;
+				}
+				else
+				{
+					SegmentLCD_Symbol(LCD_SYMBOL_DP2, 1);
+					SegmentLCD_Symbol(LCD_SYMBOL_DP3, 1);
+					SegmentLCD_Symbol(LCD_SYMBOL_DP4, 1);
+					SegmentLCD_Symbol(LCD_SYMBOL_DP5, 1);
+					lcd_on=true;
+				}
+			}
+		}
 	}
 }

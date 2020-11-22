@@ -16,6 +16,7 @@
 #include "segmentlcd_individual.h"
 
 #define NUM_OF_SEGMENTS 37
+#define BUTTONS_MASK 0b00000000000000000000000000000011
 
 /*
  *  Each segment is defined by a number from 0 to 37

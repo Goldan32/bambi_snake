@@ -23,31 +23,31 @@ int main(void)
 {
 
   /* user variable declarations */
-  _Bool button1_pressed=false;
-  _Bool button2_pressed=false;
-  _Bool input_rec=false;
-  uint16_t debounce=0;
+
   
   /* Chip errata */
   CHIP_Init();
 
 
-
+  srand(time(NULL));
   /* user inits */
   SegmentLCD_Init(false);
-  //myDelay_Init();
-  myTimer1_Init();
-  myTimer2_Init();
   BSP_ButtonsInit();
   myADC0_Init();
 
-
   /* user setup before infinite loop */
-  Snake_StartSetup();
+  Game_Init();
+  TIMER_Enable(TIMER1, true);
 
   /* Infinite loop */
   while (1)
   {
+
+	  if(status==RESTARTING)
+	  {
+		  Game_Init();
+		  myDelay_ms(500);
+	  }
 
 	  if(!input_rec)
 	  {
@@ -92,12 +92,16 @@ int main(void)
 		  {
 			  Snake_CalculateNextState(FORWARD_TURN);
 		  }
+		  if(status==RUNNING)
+		  {
 		  Screen_DrawAllSegments(SegmentRoles);
 		  SegmentLCD_Number(SnakeEndings.length);
 		  debounce=0;
+		  }
 		  input_rec=false;
 
 	  }
+
   }
 
 }
