@@ -17,6 +17,7 @@
 #include "em_core.h"
 #include "time.h"
 #include "stdlib.h"
+#include "myadc.h"
 
 int main(void)
 {
@@ -27,10 +28,13 @@ int main(void)
   /* Chip errata */
   CHIP_Init();
 
+
   srand(time(NULL));
   /* user inits */
   SegmentLCD_Init(false);
   BSP_ButtonsInit();
+  myADC0_Init();
+
   /* user setup before infinite loop */
   Game_Init();
   TIMER_Enable(TIMER1, true);
@@ -38,11 +42,13 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
+
 	  if(status==RESTARTING)
 	  {
 		  Game_Init();
 		  myDelay_ms(500);
 	  }
+
 	  if(!input_rec)
 	  {
 		  if(debounce<500)

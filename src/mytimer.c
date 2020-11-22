@@ -74,6 +74,7 @@ void myTimer2_Init(void){
 	TIMER2_init.oneShot 	= false;
 	TIMER2_init.sync 		= false;
 
+
 	TIMER_Init(TIMER2, &TIMER2_init);
 
 	TIMER_TopBufSet(TIMER2, 6900);
@@ -83,14 +84,17 @@ void myTimer2_Init(void){
 void myDelay_ms(uint32_t ms)
 {
 
+
 	/* endValue is = one tick in ms * input in ms */
 	uint32_t endValue = ms*TIMER1_FREQ;
 
 	TIMER_CounterSet(TIMER2, 0);
 	TIMER_Enable(TIMER2, true);
 
+
 	/* Wait, till it reaches our desired amount of delay */
 	while(TIMER_CounterGet(TIMER2)<endValue);
+
 
 	TIMER_Enable(TIMER2, false);
 	TIMER_Enable(TIMER1, true);

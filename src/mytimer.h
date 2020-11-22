@@ -25,6 +25,6 @@ void myTimer2_Init(void);
 void TIMER1_IRQHandler(void);
 void TIMER2_IRQHandler(void);
 
-void myDelay_ms(uint32_t ms);
+//void myDelay_ms(uint32_t ms);
 
 #endif /* SRC_MYTIMER_H_ */
