@@ -199,6 +199,7 @@ void Snake_TurnLinkedList(TurnDirection turn)
 			{
 				EndOfGame_Function();
 			}
+
 	}
 
 
@@ -234,6 +235,7 @@ void LinkedList_ToDraw(segment_status* segments)
 void Snake_CalculateNextState(TurnDirection turn)
 {
 	Snake_TurnLinkedList(turn);
+
 	LinkedList_ToDraw(SegmentRoles);
 }
 

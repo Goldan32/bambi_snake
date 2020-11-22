@@ -61,17 +61,17 @@ void myTimer2_Init(void){
 
 	CMU_ClockEnable(cmuClock_TIMER2, true);
 
-	TIMER1_init.enable 		= true;
-	TIMER1_init.debugRun 	= false;
-	TIMER1_init.prescale 	= timerPrescale1024;
-	TIMER1_init.clkSel 		= timerClkSelHFPerClk;
-	TIMER1_init.fallAction 	= timerInputActionNone;
-	TIMER1_init.riseAction 	= timerInputActionStart;
-	TIMER1_init.mode 		= timerModeUp;
-	TIMER1_init.dmaClrAct 	= true;
-	TIMER1_init.quadModeX4 	= false;
-	TIMER1_init.oneShot 	= false;
-	TIMER1_init.sync 		= false;
+	TIMER2_init.enable = true;
+	TIMER2_init.debugRun = false;
+	TIMER2_init.prescale = timerPrescale1024;
+	TIMER2_init.clkSel = timerClkSelHFPerClk;
+	TIMER2_init.fallAction = timerInputActionNone;
+	TIMER2_init.riseAction = timerInputActionStart;
+	TIMER2_init.mode = timerModeUp;
+	TIMER2_init.dmaClrAct = true;
+	TIMER2_init.quadModeX4 = false;
+	TIMER2_init.oneShot = false;
+	TIMER2_init.sync = false;
 
 	TIMER_Init(TIMER2, &TIMER2_init);
 
@@ -80,21 +80,21 @@ void myTimer2_Init(void){
 
 };
 
-void myDelay_ms(uint32_t ms)
+/*void myDelay_ms(uint32_t ms)
 {
-	/* endValue is = one tick in ms * input in ms */
+	/* endValue is = one tick in ms * input in ms */ /*
 	uint8_t endValue = ms*TIMER1_FREQ;
 
 	TIMER_CounterSet(TIMER2, 0);
 	TIMER_Enable(TIMER2, true);
 
-	/* Wait, till it reaches our desired amount of delay */
+	/* Wait, till it reaches our desired amount of delay */ /*
 	while(!(TIMER_CounterGet(TIMER2)<endValue));
 
 	TIMER_Enable(TIMER2, false);
 
 
 }
-
+*/
 
 

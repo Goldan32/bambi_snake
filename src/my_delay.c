@@ -19,7 +19,7 @@ void myDelay_Init(void)
 
 
 /*delay of "parameter" milliseconds*/
-/*void myDelay_ms(int ms)
+void myDelay_ms(int ms)
 {
   uint32_t endValue = ms * RTC_FREQ / 1000; // RTC Freq az a mi 14MHz-ünk, 1000 a prescale
   RTC->CNT = 0; // berak egy 0-at
@@ -29,4 +29,4 @@ void myDelay_Init(void)
   while ( RTC->CNT < endValue ); // számol addig, amíg elnem éri a maxot
 
   RTC->CTRL &= ~RTC_CTRL_EN; // // ha vége akkor disable
-}*/
+}
