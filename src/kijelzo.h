@@ -12,7 +12,6 @@
 
 #include "em_lcd.h"
 #include "segmentlcd.h"
-#include "segmentlcd.h"
 #include "segmentlcd_individual.h"
 
 #define NUM_OF_SEGMENTS 37

@@ -13,7 +13,8 @@
 #include "em_cmu.h"
 
 /* With 1024 Prescale, f(timer) = 13.672 kHz */
-#define TIMER1_FREQ 13.672;
+#define TIMER1_FREQ 13.672
+#define ONE_SECOND_TICK 13800
 
 volatile _Bool timerflag;
 volatile _Bool mydelayflag;
@@ -25,6 +26,6 @@ void myTimer2_Init(void);
 void TIMER1_IRQHandler(void);
 void TIMER2_IRQHandler(void);
 
-//void myDelay_ms(uint32_t ms);
+void myDelay_ms(uint32_t ms);
 
 #endif /* SRC_MYTIMER_H_ */

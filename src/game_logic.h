@@ -13,12 +13,6 @@
 /* ====================== TYPEDEFS/ENUMS ============================= */
 
 typedef enum {RUNNING, RESTARTING} GameState;
-GameState status;
-
-_Bool button1_pressed;
-_Bool button2_pressed;
-_Bool input_rec;
-uint16_t debounce;
 
 void Game_Init(void);
 
@@ -68,6 +62,14 @@ Direction_StateMachine_Type current_direction;
  * elements can be 0...NUM_OF_SEGMENTS-1, if the value is NUM_OF_SEGMENTS, or greater than the value is undefined */
 uint8_t Snake_BackwardLinkedList[NUM_OF_SEGMENTS];
 
+/* Variable that stores the current state of the game */
+GameState status;
+
+/* Variables used in main*/
+_Bool button1_pressed;
+_Bool button2_pressed;
+_Bool input_rec;
+uint16_t debounce;
 
 /* =================================================================== */
 

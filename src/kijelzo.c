@@ -7,7 +7,6 @@
 
 
 #include "kijelzo.h"
-//#include "my_delay.h"
 #include "game_logic.h"
 #include "mytimer.h"
 #include "bsp_stk_buttons.h"
@@ -143,7 +142,7 @@ void Decimalpoints_BlinkFiveTimes(void)
 	  SegmentLCD_LowerSegments(lowerCharSegments);
     }
 
-	/* Since we only use Timer2 interrupt in this function, this is the only time where we need to enable the interrupts for Tierm2*/
+	/* Since we only use Timer2 interrupt in this function, this is the only time where we need to enable the interrupts for Timer2*/
 	TIMER_Enable(TIMER2, true);
 	TIMER_IntClear(TIMER2, _TIMER_IF_MASK);
 	TIMER_IntEnable(TIMER2, TIMER_IEN_OF);
@@ -167,7 +166,7 @@ void Decimalpoints_BlinkFiveTimes(void)
 		else
 		{
 			/*Every 0.5 seconds TIMER2 gives us an interrupt, where he toogles mydelayflag
-			 * If the decimalsymbols were on previously, then switch them off, visa versa*/
+			 * If the decimal symbols were on previously, then switch them off, visa versa*/
 			if(mydelayflag)
 			{
 				mydelayflag=false;

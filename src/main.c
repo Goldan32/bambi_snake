@@ -7,7 +7,6 @@
 #include "segmentlcd.h"
 
 #include "segmentlcd_individual.h"
-#include "my_delay.h"
 #include "kijelzo.h"
 #include "mytimer.h"
 #include "game_logic.h"
@@ -21,28 +20,18 @@
 
 int main(void)
 {
-
-  /* user variable declarations */
-
-  
   /* Chip errata */
   CHIP_Init();
-
-
   srand(time(NULL));
   /* user inits */
   SegmentLCD_Init(false);
   BSP_ButtonsInit();
-  myADC0_Init();
-
   /* user setup before infinite loop */
   Game_Init();
   TIMER_Enable(TIMER1, true);
-
   /* Infinite loop */
   while (1)
   {
-
 	  if(status==RESTARTING)
 	  {
 		  Game_Init();
@@ -51,7 +40,7 @@ int main(void)
 
 	  if(!input_rec)
 	  {
-		  if(debounce<500)
+		  if(debounce<7000)
 		  {
 			  debounce++;
 		  }

@@ -10,7 +10,6 @@
 
 #include "em_cmu.h"
 #include "em_adc.h"
-#include "my_delay.h"
 #include "em_gpio.h"
 
 void myADC0_Init(void);
