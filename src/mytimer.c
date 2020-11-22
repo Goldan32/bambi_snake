@@ -51,7 +51,6 @@ void myTimer1_Init(void){
 
 	/* With prescale, it takes 0.5 sec to reach top when buffer is 6836 */
 	TIMER_TopBufSet(TIMER1, 16000);
-	TIMER_Enable(TIMER1, true);
 	TIMER_IntClear(TIMER1, _TIMER_IF_MASK);
 	TIMER_IntEnable(TIMER1, TIMER_IEN_OF);
 	NVIC_ClearPendingIRQ(TIMER1_IRQn);

@@ -143,6 +143,7 @@ void Decimalpoints_BlinkFiveTimes(void)
 	  SegmentLCD_LowerSegments(lowerCharSegments);
     }
 
+	/* Since we only use Timer2 interrupt in this function, this is the only time where we need to enable the interrupts for Tierm2*/
 	TIMER_Enable(TIMER2, true);
 	TIMER_IntClear(TIMER2, _TIMER_IF_MASK);
 	TIMER_IntEnable(TIMER2, TIMER_IEN_OF);
@@ -153,8 +154,8 @@ void Decimalpoints_BlinkFiveTimes(void)
 
 	while(1)
 	{
-		/*BSP_ButtonsGet is 0, if*/
-		if(!(BSP_ButtonsGet()==0b00000000000000000000000000000011))
+		/*If one of the buttons are pressed, restart the game*/
+		if(!(BSP_ButtonsGet()==BUTTONS_MASK))
 		{
 			status=RESTARTING;
 			SegmentLCD_Symbol(LCD_SYMBOL_DP2, 0);
@@ -165,6 +166,8 @@ void Decimalpoints_BlinkFiveTimes(void)
 		}
 		else
 		{
+			/*Every 0.5 seconds TIMER2 gives us an interrupt, where he toogles mydelayflag
+			 * If the decimalsymbols were on previously, then switch them off, visa versa*/
 			if(mydelayflag)
 			{
 				mydelayflag=false;

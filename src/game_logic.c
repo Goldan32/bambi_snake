@@ -264,11 +264,12 @@ void Snake_StartSetup(void)
 void EndOfGame_Function(void)
 {
 	Decimalpoints_BlinkFiveTimes();
-	/* waiting for reset */
+	/* Waiting for button pressing */
 
 };
 
-
+/* All the initializations are in one place
+ * Timer1 is disabled, because otherwise it wont function as intended*/
 
 void Game_Init(void)
 {
